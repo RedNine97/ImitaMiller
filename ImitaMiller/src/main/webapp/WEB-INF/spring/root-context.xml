@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<!-- <context:annotation-config /> -->
+<context:component-scan base-package="com.imitamiller.service" />
+<context:component-scan base-package="com.imitamiller.dao" />
+<!--DB연결(dataSource) driver, url, username, password지정(DB연결 구성요소) -->
+	<bean id="dataSource" 
+	   class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	   <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+	   <property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
+	   <property name="username" value="imita" />
+	   <property name="password" value="imita" />
+	</bean>
+	
+	<!--2.DB연결시켜서 가져올 수 있는 빈즈객체 
+		public void setDs(DataSource ds){this.ds=ds;}
+	 -->
+	<!-- <bean id="productService" class="com.imitamiller.service.ProductServiceImpl">
+		<property name="ds" ref="dataSource" />
+	</bean> -->
+	
+	<mvc:annotation-driven />
+
+</beans>

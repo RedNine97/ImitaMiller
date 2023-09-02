@@ -19,13 +19,12 @@
 	   <property name="password" value="imita" />
 	</bean>
 	
-	<!--2.DB연결시켜서 가져올 수 있는 빈즈객체 
+	<!-- DB연결시켜서 가져올 수 있는 빈즈객체 
 		public void setDs(DataSource ds){this.ds=ds;}
 	 -->
 	<!-- <bean id="productService" class="com.imitamiller.service.ProductServiceImpl">
 		<property name="ds" ref="dataSource" />
 	</bean> -->
 	
-	<mvc:annotation-driven />
 
 </beans>

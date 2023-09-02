@@ -46,12 +46,12 @@
                     </a>
                   </div>
                   <div class="carousel-item" data-bs-interval="4000">
-                  	<a class="" href="./ProductList.shop?search=서재&searchtext=책상/테이블">
+                  	<a class="" href="./product_list.shop?search=서재&searchtext=책상/테이블">
                     	<img src="img/slide/slide3.png" class="d-block w-100" alt="...">
                     </a>
                   </div>
                   <div class="carousel-item" data-bs-interval="4000">
-                  	<a class="" href="./ProductList.shop?search=거실&searchtext=소파">
+                  	<a class="" href="./product_list.shop?search=거실&searchtext=소파">
                     	<img src="img/slide/slide4.png" class="d-block w-100" alt="...">
                     </a>
                   </div>
@@ -93,7 +93,7 @@
 	                                </div>
 	                                <!-- 상품 링크-->
 	                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-	                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="./ProductDetail.shop?pID=${b.pID}">자세히 보기</a></div>
+	                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="./product_detail.shop?pID=${b.pID}">자세히 보기</a></div>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -134,7 +134,7 @@
                             <!-- 상품 링크-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" 
-                                											href="./ProductList.shop?search=의자&searchtext=오피스의자">관련상품 전체보기</a></div>
+                                											href="./product_list.shop?search=의자&searchtext=오피스의자">관련상품 전체보기</a></div>
                             </div>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                         	<c:forEach var="l1" items="${list1}">
 	                            <div class="col card">
 	                                <!-- 상품 이미지-->
-	                                <a class="" href="./ProductDetail.shop?pID=${l1.pID}"><img class="card-img-top" src="${l1.imgpath}.jpg" alt="..." /></a>
+	                                <a class="" href="./product_detail.shop?pID=${l1.pID}"><img class="card-img-top" src="${l1.imgpath}.jpg" alt="..." /></a>
 	                                <!-- 상품 내용-->
 	                                <div class="card-body p-2">
 	                                    <div class="text-left">
@@ -179,7 +179,7 @@
 							<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 								<div class="text-center">
 									<a class="btn btn-outline-dark mt-auto"
-										href="./ProductList.shop?search=주방&searchtext=식탁">관련상품
+										href="./product_list.shop?search=주방&searchtext=식탁">관련상품
 										전체보기</a>
 								</div>
 							</div>
@@ -191,7 +191,7 @@
 							<c:forEach var="l2" items="${list2}">
 								<div class="col card">
 									<!-- 상품 이미지-->
-									<a class="" href="./ProductDetail.shop?pID=${l2.pID}"><img
+									<a class="" href="./product_detail.shop?pID=${l2.pID}"><img
 										class="card-img-top" src="${l2.imgpath}.jpg" alt="..." /></a>
 									<!-- 상품 내용-->
 									<div class="card-body p-2">
@@ -228,7 +228,7 @@
 								<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 									<div class="text-center">
 										<a class="btn btn-outline-dark mt-auto"
-											href="./ProductList.shop?search=거실&searchtext=소파">관련상품
+											href="./product_list.shop?search=거실&searchtext=소파">관련상품
 											전체보기</a>
 									</div>
 								</div>
@@ -240,7 +240,7 @@
 								<c:forEach var="l3" items="${list3}">
 									<div class="col card">
 										<!-- 상품 이미지-->
-										<a class="" href="./ProductDetail.shop?pID=${l3.pID}"><img
+										<a class="" href="./product_detail.shop?pID=${l3.pID}"><img
 											class="card-img-top" src="${l3.imgpath}.jpg" alt="..." /></a>
 										<!-- 상품 내용-->
 										<div class="card-body p-2">
@@ -293,7 +293,7 @@
 							<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 								<div class="text-center">
 									<a class="btn btn-outline-dark mt-auto"
-										href="./ProductList.shop?search=침실&searchtext=거울/화장대">관련상품
+										href="./product_list.shop?search=침실&searchtext=거울/화장대">관련상품
 										전체보기</a>
 								</div>
 							</div>
@@ -305,7 +305,7 @@
 							<c:forEach var="l4" items="${list4}">
 								<div class="col card">
 									<!-- 상품 이미지-->
-									<a class="" href="./ProductDetail.shop?pID=${l4.pID}"><img
+									<a class="" href="./product_detail.shop?pID=${l4.pID}"><img
 										class="card-img-top" src="${l4.imgpath}.jpg" alt="..." /></a>
 									<!-- 상품 내용-->
 									<div class="card-body p-2">
@@ -342,7 +342,7 @@
 							<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 								<div class="text-center">
 									<a class="btn btn-outline-dark mt-auto"
-										href="./ProductList.shop?search=서재&searchtext=책상/테이블">관련상품
+										href="./product_list.shop?search=서재&searchtext=책상/테이블">관련상품
 										전체보기</a>
 								</div>
 							</div>
@@ -354,7 +354,7 @@
 							<c:forEach var="l5" items="${list5}">
 								<div class="col card">
 									<!-- 상품 이미지-->
-									<a class="" href="./ProductDetail.shop?pID=${l5.pID}"><img
+									<a class="" href="./product_detail.shop?pID=${l5.pID}"><img
 										class="card-img-top" src="${l5.imgpath}.jpg" alt="..." /></a>
 									<!-- 상품 내용-->
 									<div class="card-body p-2">
@@ -391,7 +391,7 @@
 							<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 								<div class="text-center">
 									<a class="btn btn-outline-dark mt-auto"
-										href="./ProductList.shop?search=서재&searchtext=책장/선반장">관련상품
+										href="./product_list.shop?search=서재&searchtext=책장/선반장">관련상품
 										전체보기</a>
 								</div>
 							</div>
@@ -403,7 +403,7 @@
 							<c:forEach var="l6" items="${list6}">
 								<div class="col card">
 									<!-- 상품 이미지-->
-									<a class="" href="./ProductDetail.shop?pID=${l6.pID}"><img
+									<a class="" href="./product_detail.shop?pID=${l6.pID}"><img
 										class="card-img-top" src="${l6.imgpath}.jpg" alt="..." /></a>
 									<!-- 상품 내용-->
 									<div class="card-body p-2">

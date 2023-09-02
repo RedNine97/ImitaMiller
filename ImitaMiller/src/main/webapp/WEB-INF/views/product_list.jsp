@@ -50,7 +50,7 @@
 							    <c:if test="${!uniquePtypes.contains(pd.ptype)}">
 							        <c:set var="uniquePtypes" value="${uniquePtypes},${pd.ptype}" />
 							        <li class="nav-item ps-5">
-							            <a class="nav-link active" href="./ProductList.shop?search=${pd.pcategory}&searchtext=${pd.ptype}">
+							            <a class="nav-link active" href="./product_list.shop?search=${pd.pcategory}&searchtext=${pd.ptype}">
 							                <c:out value="${pd.ptype}" />
 							            </a>
 							        </li>
@@ -72,7 +72,7 @@
 				<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
 					<c:forEach var="p" items="${productList}">
 						<div class="col mb-5 ps-1">
-							<a href="./ProductDetail.shop?pID=${p.pID}&pageNum=${pgList.currentPage}" class="d-block overflow-hidden position-relative my-custom-link-style">
+							<a href="./product_detail.shop?pID=${p.pID}&pageNum=${pgList.currentPage}" class="d-block overflow-hidden position-relative my-custom-link-style">
 								<div class="card h-100">
 									<!-- 상품 이미지-->
 									<img class="card-img-top" src="${p.imgpath}.jpg" />
@@ -114,7 +114,7 @@
 				
 			  <c:if test="${pgList.startPage>pgList.blockSize}">
               <li class="page-item">
-              	<a aria-label="Previous" class="page-link" href="./ProductList.shop?pageNum=${pgList.startPage-pgList.blockSize}&search=${search}&searchtext=${searchtext}" 
+              	<a aria-label="Previous" class="page-link" href="./product_list.shop?pageNum=${pgList.startPage-pgList.blockSize}&search=${search}&searchtext=${searchtext}" 
               		tabindex="-1" aria-disabled="true"> 
               		<span aria-hidden="true">«</span></a>
 			  </li>
@@ -124,13 +124,13 @@
               <li class="page-item">
               <c:choose>
               	<c:when test="${pgList.currentPage==i}">
-              		<a href="./ProductList.shop?pageNum=${i}&search=${search}&searchtext=${searchtext}" class="page-link">
+              		<a href="./product_list.shop?pageNum=${i}&search=${search}&searchtext=${searchtext}" class="page-link">
 		                 ${i}
 		             </a>
               	</c:when>
               	<c:otherwise>
 		                <a
-		                  href="./ProductList.shop?pageNum=${i}&search=${search}&searchtext=${searchtext}"
+		                  href="./product_list.shop?pageNum=${i}&search=${search}&searchtext=${searchtext}"
 		                  class="page-link">
 		                 ${i}
 		                </a>
@@ -141,7 +141,7 @@
         		
         	    <c:if test="${pgList.endPage<pgList.pageCount}">
         	    <li class="page-item">
-	                <a href="./ProductList.shop?pageNum=${pgList.startPage+pgList.blockSize}&search=${search}&searchtext=${searchtext}"
+	                <a href="./product_list.shop?pageNum=${pgList.startPage+pgList.blockSize}&search=${search}&searchtext=${searchtext}"
 	                  aria-label="Next" class="page-link">
 	                	<span aria-hidden="true">»</span>
 	                </a>

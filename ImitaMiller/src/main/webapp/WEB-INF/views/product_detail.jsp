@@ -72,7 +72,7 @@
 			<div class="row gx-2 gx-lg-3 row-cols-4 row-cols-md-6 row-cols-xl-6 flex-nowrap overflow-auto" style="max-width: 100%;">
 			    <c:forEach var="dp" items="${differentProduct}">
 			        <div class="col mb-3">
-			            <a href="./ProductDetail.shop?pID=${dp.pID}&pageNum=${pgList.currentPage}"
+			            <a href="./product_detail.shop?pID=${dp.pID}&pageNum=${pgList.currentPage}"
 			               class="d-block overflow-hidden position-relative my-custom-link-style">
 			                <div class="card h-100">
 			                    <!-- 상품 이미지-->

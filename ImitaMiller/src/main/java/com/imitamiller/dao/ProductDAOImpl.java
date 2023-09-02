@@ -159,11 +159,9 @@ public class ProductDAOImpl implements ProductDAO {
 						sql = "select * from (select rownum as rnum, pID, pname, psize, pfinishing, pprice , ptype, pcategory, psizemgpath, imgpath, count from (select * from product where pcategory like '%" + searchtext + "%' or ptype like '%" + searchtext + "%'order by "+sort+")) where rnum>=? and rnum<=?";
 					}
 				}
-				System.out.println("getProductList()의 sql=>"+sql);
 				pstmt=con.prepareStatement(sql);
 				pstmt.setInt(1, start);
 				pstmt.setInt(2, start-1+end);
-				System.out.println("start="+start+"start-1+end="+(start-1+end));
 				rs=pstmt.executeQuery();
 				if(rs.next()) {
 					productList=new ArrayList(end);

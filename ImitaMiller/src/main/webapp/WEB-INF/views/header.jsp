@@ -48,25 +48,25 @@
 					<ul class="category-menu navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
 						style="-bs-scroll-height: 100px;">
 						<li class="nav-item"><a class="nav-link" aria-current="page"
-							href="./ProductList.shop?search=의자">의자</a></li>
+							href="./product_list.shop?search=의자">의자</a></li>
 						<li class="nav-item"><a class="nav-link" 
-							href="./ProductList.shop?search=침실">침실</a></li>
+							href="./product_list.shop?search=침실">침실</a></li>
 						<li class="nav-item"><a class="nav-link" 
-							href="./ProductList.shop?search=거실">거실</a></li>
+							href="./product_list.shop?search=거실">거실</a></li>
 						<li class="nav-item"><a class="nav-link" 
-							href="./ProductList.shop?search=주방">주방</a></li>
+							href="./product_list.shop?search=주방">주방</a></li>
 						<li class="nav-item dropdown"><a
 							class="nav-link dropdown-toggle" href="#"
 							id="navbarScrollingDropdown" role="button"
 							data-bs-toggle="dropdown" aria-expanded="false"> 서재 </a>
 							<ul class="dropdown-menu"
 								aria-labelledby="navbarScrollingDropdown">
-								<li><a class="dropdown-item" href="./ProductList.shop?search=서재">전체보기</a></li>
-								<li><a class="dropdown-item" href="./ProductList.shop?search=서재&searchtext=책장/선반장">책장/선반장</a></li>
-								<li><a class="dropdown-item" href="./ProductList.shop?search=서재&searchtext=책상/테이블">책상/테이블</a></li>
+								<li><a class="dropdown-item" href="./product_list.shop?search=서재">전체보기</a></li>
+								<li><a class="dropdown-item" href="./product_list.shop?search=서재&searchtext=책장/선반장">책장/선반장</a></li>
+								<li><a class="dropdown-item" href="./product_list.shop?search=서재&searchtext=책상/테이블">책상/테이블</a></li>
 							</ul></li>
 					</ul>
-					<form class="d-flex" name="search" action="./ProductList.shop">
+					<form class="d-flex" name="search" action="./product_list.shop">
 						<input class="form-control me-2" name="search" id="searchtext" type="search" placeholder="검색">
 						<button class="btn btn-outline-success" type="submit">
 							<svg xmlns="http://www.w3.org/2000/svg" width="14" height=""

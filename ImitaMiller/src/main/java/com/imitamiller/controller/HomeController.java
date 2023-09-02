@@ -60,7 +60,7 @@ public class HomeController {
 	}
 	
 	//상품 리스트(메뉴 별로 출력)
-	@RequestMapping(value="ProductList.shop", method=RequestMethod.GET)
+	@RequestMapping(value="product_list.shop", method=RequestMethod.GET)
 	public ModelAndView showProductList(@RequestParam(name = "pageNum", defaultValue = "1") String pageNum,
 															@RequestParam(name = "search", defaultValue = "") String search,
 															@RequestParam(name = "searchtext", defaultValue = "") String searchtext,
@@ -87,7 +87,7 @@ public class HomeController {
 			 productList=Collections.EMPTY_LIST;
 		 }
 		 
-		ModelAndView mav=new ModelAndView("ProductList");
+		ModelAndView mav=new ModelAndView("product_list");
 		mav.addObject("search",search);//검색분야
 		mav.addObject("searchtext",searchtext);//검색어
 		mav.addObject("pgList",pgList);//페이징처리 10개 정보저장
@@ -97,7 +97,7 @@ public class HomeController {
 	}
 	
 	//상품 상세 페이지
-		@RequestMapping(value="ProductDetail.shop", method=RequestMethod.GET)
+		@RequestMapping(value="product_detail.shop", method=RequestMethod.GET)
 		public ModelAndView showProductDetail(@RequestParam(name = "pID", defaultValue = "") int pID){// 정렬 파라미터 추가
 			System.out.println("ProductDetail의 매개변수 확인 "+pID);
 			
@@ -114,7 +114,7 @@ public class HomeController {
 			ProductDTO productList = productService.getProductDetail(pID);
 			System.out.println("getProductDetail의 productList=>"+productList);
 			
-			ModelAndView mav=new ModelAndView("ProductDetail");
+			ModelAndView mav=new ModelAndView("product_detail");
 			//mav.addObject("productList",productList);
 			mav.addObject("differentProduct",differentProduct);
 			mav.addObject("productList",productList);

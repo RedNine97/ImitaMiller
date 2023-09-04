@@ -7,6 +7,7 @@
 // Scripts
 // 
 
+//메인 페이지 슬라이드 쇼 
 window.addEventListener('DOMContentLoaded', event => {
 
     // Activate Bootstrap scrollspy on the main nav element
@@ -60,5 +61,29 @@ function sortChange(){
     $('#divReloadLayer').load(location.href + ' #divReloadLayer', "pcategory=" + filter1 + "&ptype=" + filter2 + "&pprice=" + filter3 + "&count=" + filter4 + "&sort=" + sort);
 }
 
+//로그인페이지 에러메세지(아이디, 비밀번호)
+function loginCheck(){
+	var inputID = document.getElementById("inputID");
+    var inputPassword = document.getElementById("inputPassword");
+    var errorElement = document.getElementById("error_message");
+    
+  if(inputID.value==""){
+    errorElement.innerHTML = '<p class="text-justify text-sm text-red-500 mb-3">아이디를 입력해주세요.</p>'
+  return;
+  }
+  if(inputPassword.value==""){
+    errorElement.innerHTML = '<p class="text-justify text-sm text-red-500 mb-3">비밀번호를 입력해주세요.</p>'
+  return;
+  }
+  document.login.submit();
+  
+}
 
-
+// 로그아웃 후 메시지를 가져와서 표시
+function Logout() {
+    var confirmLogout = window.confirm("로그아웃하시겠습니까?");
+    if (confirmLogout) {
+        // 확인을 클릭한 경우에만 로그아웃 페이지로 이동
+        window.location.href = "logout.shop";
+    }
+}

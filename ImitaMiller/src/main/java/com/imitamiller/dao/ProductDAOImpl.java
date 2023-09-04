@@ -24,7 +24,6 @@ public class ProductDAOImpl implements ProductDAO {
 	@Autowired
 	private DataSource ds;//service-context.xml에서 불러다 사용
 	//접속후 sql실행 -> pstmt와 역할이 비슷한 클래스
-	private JdbcTemplate jt;//->query()(select), update()(insert, update, delete)
 	
 	private Connection con=null;
 	private PreparedStatement pstmt=null; 
@@ -36,7 +35,6 @@ public class ProductDAOImpl implements ProductDAO {
 		// TODO Auto-generated method stub
 		this.ds=ds;
 		System.out.println("ds => "+ds);
-		this.jt=new JdbcTemplate(ds);//JdbcTemplate(DB정보 객체)
 		System.out.println("setDs()호출되서 DB연결됨(ds)");
 	}
 	
@@ -212,7 +210,7 @@ public class ProductDAOImpl implements ProductDAO {
 			return productList;
 		}
 		
-		//상품 상세
+		//상품 상세(count +1, 상품 상세 불러오기)
 		public ProductDTO getProductDetail(int pID) {
 			ProductDTO productList=null;
 			

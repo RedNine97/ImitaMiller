@@ -46,12 +46,12 @@
                     </a>
                   </div>
                   <div class="carousel-item" data-bs-interval="4000">
-                  	<a class="" href="./product_list.shop?search=서재&searchtext=책상/테이블">
+                  	<a class="" href="product_list.shop?search=서재&searchtext=책상/테이블">
                     	<img src="img/slide/slide3.png" class="d-block w-100" alt="...">
                     </a>
                   </div>
                   <div class="carousel-item" data-bs-interval="4000">
-                  	<a class="" href="./product_list.shop?search=거실&searchtext=소파">
+                  	<a class="" href="product_list.shop?search=거실&searchtext=소파">
                     	<img src="img/slide/slide4.png" class="d-block w-100" alt="...">
                     </a>
                   </div>

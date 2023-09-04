@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="javax.servlet.http.HttpSession"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 
 <!--메인 네비바-->
 	<div class="">
@@ -19,13 +23,24 @@
 					Menu <i class="bi-list"></i>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarResponsive">
-					<ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-						<li class="nav-item"><a class="nav-link me-lg-3"
-							href="#features">로그인/회원가입</a></li>
-						<li class="nav-item"><a class="nav-link me-lg-3"
-							href="#download">마이페이지</a></li>
-					</ul>
-					<button class="btn btn-primary rounded-pill px-2 mb-2 mb-lg-0"
+				<ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+					<li class="nav-item">
+						<!-- memlogin 정보가 없을 때 --> 
+						<c:choose>
+							<c:when test="${empty loginCheck}">
+								<a class="nav-link me-lg-" href="./login.shop">로그인</a>
+							</c:when>
+							<c:when test="${not empty loginCheck}">
+								<a class="nav-link me-lg-3" href="javascript:void(0);" onclick="Logout();">로그아웃</a>
+								<!-- 프로필 사진 위치 -->
+							</c:when>
+						</c:choose>
+					</li>
+					<li class="nav-item"><c:if test="${not empty loginCheck}">
+							<a class="nav-link me-lg-3" href="#download">마이페이지</a>
+						</c:if></li>
+				</ul>
+				<button class="btn btn-primary rounded-pill px-2 mb-2 mb-lg-0"
 						data-bs-toggle="modal" data-bs-target="#feedbackModal">
 						<span class="d-flex align-items-center"> <i
 							class="bi-chat-text-fill me-2"></i> <span class="small">문의하기</span>
@@ -69,7 +84,7 @@
 					<form class="d-flex" name="search" action="./product_list.shop">
 						<input class="form-control me-2" name="search" id="searchtext" type="search" placeholder="검색">
 						<button class="btn btn-outline-success" type="submit">
-							<svg xmlns="http://www.w3.org/2000/svg" width="14" height=""
+							<svg xmlns="http://www.w3.org/2000/svg" width="14" 
 								fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                           <path
 									d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />

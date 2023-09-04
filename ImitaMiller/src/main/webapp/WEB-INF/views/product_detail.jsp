@@ -12,7 +12,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>고품격 가구 브랜드 이미타밀러</title>
-        <link rel="icon" type="img/x-icon" href="img/favicon.PNG"/>
+        <link rel="icon" type="img/x-icon" href="img/favicon.png"/>
 
         <!-- 글꼴 -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

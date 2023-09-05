@@ -30,7 +30,7 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image" href="./main.shop"></div>
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
@@ -48,11 +48,8 @@
                                         </div>
                                         <!-- 에러메세지 출력 -->
             							<p id="error_message"></p>
-                                        <input type="button" value="로그인" class="btn btn-login btn-user btn-block" onclick="loginCheck()">
-                                        </input>
-                                        <button type="button" onclick="document.location='./M_mainpage.shop'" class="btn btn-login btn-user btn-block">
-                                            회원가입
-                                        </button>
+                                        <input type="button" value="로그인" class="btn btn-login btn-user btn-block" onclick="loginCheck()" />
+                                        <input type="button" value="회원가입" onclick="document.location='./register.shop'" class="btn btn-login btn-user btn-block" />
                                         <hr>
                                         <div class="container">
                                             <div class="row">
@@ -71,6 +68,9 @@
                                     <div class="text-center">
                                         <a class="small btn-login" href="#">비밀번호 찾기</a>
                                     </div>
+                                    <div class="text-center pt-3">
+                                    	<a class="text-dark no-underline" href="./main.shop">로그인하러 가기</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -82,6 +82,6 @@
         </div>
 
     </div>
-<script src="js/scripts.js"></script>
+<script src="js/scripts.js?ver=1.0"></script>
 </body>
 </html>

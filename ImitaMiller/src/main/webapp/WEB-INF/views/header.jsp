@@ -36,9 +36,11 @@
 							</c:when>
 						</c:choose>
 					</li>
-					<li class="nav-item"><c:if test="${not empty loginCheck}">
+					<li class="nav-item">
+						<c:if test="${not empty loginCheck}">
 							<a class="nav-link me-lg-3" href="#download">마이페이지</a>
-						</c:if></li>
+						</c:if>
+					</li>
 				</ul>
 				<button class="btn btn-primary rounded-pill px-2 mb-2 mb-lg-0"
 						data-bs-toggle="modal" data-bs-target="#feedbackModal">

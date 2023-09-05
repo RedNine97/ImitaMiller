@@ -78,6 +78,14 @@
 			<version>1.2</version>
 		</dependency>
 		
+		<!--Jackson 라이브러리-->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.13.0</version> <!-- Jackson 버전은 프로젝트에 맞게 변경 -->
+		</dependency>
+
+		
 	</dependencies>	
   
   <!-- -->

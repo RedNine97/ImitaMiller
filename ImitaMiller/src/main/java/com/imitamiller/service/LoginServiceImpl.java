@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.imitamiller.dao.LoginDAO;
 import com.imitamiller.dto.LoginDTO;
-import com.imitamiller.dto.RegisterDTO;
+import com.imitamiller.dto.MemberDTO;
 import com.imitamiller.dto.ZipcodeDTO;
 
 @Service
@@ -39,12 +39,27 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public boolean memberInsert(RegisterDTO registerDTO, LoginDTO loginDTO) {
+	public boolean memberInsert(MemberDTO registerDTO, LoginDTO loginDTO) {
 		// TODO Auto-generated method stub
 		return loginDAO.memberInsert(registerDTO, loginDTO);
 	}
-	
-	
-	
+
+	@Override
+	public MemberDTO getMemberInfo(int login_id) {
+		// TODO Auto-generated method stub
+		return loginDAO.getMemberInfo(login_id);
+	}
+
+	@Override
+	public boolean memberUpdate(int login_id, MemberDTO memberDTO, LoginDTO loginDTO) {
+		// TODO Auto-generated method stub
+		return loginDAO.memberUpdate(login_id, memberDTO, loginDTO);
+	}
+
+	@Override
+	public boolean deleteMember(int login_id) {
+		// TODO Auto-generated method stub
+		return loginDAO.deleteMember(login_id);
+	}
 
 }

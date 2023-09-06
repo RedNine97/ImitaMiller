@@ -6,9 +6,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.imitamiller.dto.LoginDTO;
@@ -28,7 +29,7 @@ public class HomeController {
 		// 로그인 상태
 		LoginDTO loginCheck = (LoginDTO) session.getAttribute("loginCheck");
 		System.out.println("loginCheck => "+loginCheck);
-		session.setAttribute("loginCheck", loginCheck);
+		//session.setAttribute("loginCheck", loginCheck);
 		
 		//베스트 상품
 		List<ProductDTO> differentProduct=productService.getRecommendProduct(1, 9);//추천 상품
@@ -56,7 +57,7 @@ public class HomeController {
 			login_id = loginCheck.getLogin_id(); // 회원로그인의 회원번호
 		    String id = loginCheck.getId(); // 회원로그인의 회원아이디
 		    String pwd = loginCheck.getPwd(); // 회원로그인의 비밀번호
-		    mav.addObject("check", login_id);
+		    session.setAttribute("login_id", login_id);
 		    mav.addObject("loginCheck",loginCheck);
 		} 
 		mav.addObject("best",differentProduct);
@@ -67,10 +68,15 @@ public class HomeController {
 		mav.addObject("list5",library1);
 		mav.addObject("list6",library2);
 		
-		System.out.println("main의 loginCheck "+loginCheck);
-		System.out.println("main의 check "+login_id);
+		System.out.println("main의 loginDTO "+loginCheck);
+		System.out.println("main의 login_id "+login_id);
 		
 		return mav;
 	}
-
+	
+	@GetMapping("/mypage.shop")
+	public String mypage() {
+		return "/mypage";
+	}
+	
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,7 +14,8 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-        
+        <!-- top.jsp -->
+    	<jsp:include page="header.jsp" flush="false" />
 </head>
 <body class="bg-gradient-primary">
 
@@ -32,17 +34,16 @@
                             <div class="col-lg-7">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 mb-4">REGISTER</h1>
+                                        <h1 class="h4 mb-4">회원정보 확인</h1>
                                     </div>
-                                    <!-- 회원가입 폼 -->
-                                    <form class="user" name="register" id="register" method="POST" action="register.shop">
+                                    <form class="user" name="memupdate" id="memupdate" method="POST" action="memupdate.shop">
                                         <!-- 성명 -->
                                         <div class="form-group row border-top">
                                             <div class="col-sm-3 mb-3 mb-sm-0">
                                                 <p class="pt-4 mt-2">성명<span class="highlight">*</span></p>
                                             </div>
                                             <div class="col-sm-9 ps-0">
-                                                <input type="text" class="register-input form-control form-control-user mt-3 rounded-start rounded-4" id="Name" name="memname">
+                                                <input type="text" value="${memberInfo.memname}" class="register-input form-control form-control-user mt-3 rounded-start rounded-4" id="Name2" name="memname">
                                             </div>
                                         </div>
                                         <!-- 생년월일 -->
@@ -52,8 +53,9 @@
                                             </div>
                                             <div class="col-sm-9 ps-0 mt-4">
                                                 <div class="input-birth input-group mb-3">
-	                                                <input type="date" name="birthday" id="birthday" 
-	                                                	 class="form-control">
+                                                <input type="hidden" name="hiddenBirthday" id="hiddenBirthday" value="${memberInfo.birthday}">
+	                                                <input type="date" name="birthday" id="birthday2" 
+	                                                	 class="form-control" >
                                                  </div>
                                             </div>
                                         </div>
@@ -63,8 +65,8 @@
                                                 <p class="pt-4 mt-2">아이디<span class="highlight">*</span></p>
                                             </div>
                                             <div class="col-sm-9 row">
-                                                <input type="text" name="id" id="mem_id" class="col-sm-9 register-input form-control form-control-user mt-3 rounded-start rounded-4">
-                                                <button class="col-sm-3 btn btn-outline-secondary ms-3 mt-3 btn-idcheck" type="button" id="checkDuplicate">중복체크</button>
+                                                <input type="text" name="id" id="mem_id2" value="${loginCheck.id}" class="col-sm-9 register-input form-control form-control-user mt-3 rounded-start rounded-4">
+                                                <button class="col-sm-3 btn btn-outline-secondary ms-3 mt-3 btn-idcheck" type="button" id="checkDuplicate2">중복체크</button>
                                             </div>
                                             <div class="position-relative pt-2">
                                                 <p class="text-center mb-0">공백없는 5~12자리의 영문/숫자 조합</p>
@@ -76,7 +78,7 @@
                                                 <p class="pt-4 mt-2">비밀번호<span class="highlight">*</span></p>
                                             </div>
                                             <div class="col-sm-9 ps-0">
-                                                <input type="password" name="pwd" id="mem_passwd" class="register-input form-control form-control-user mt-3 rounded-start rounded-4">
+                                                <input type="password" name="pwd" id="mem_passwd2" class="register-input form-control form-control-user mt-3 rounded-start rounded-4">
                                             </div>
                                             <div class="position-relative pt-2">
                                                 <p class="text-center mb-0">공백없는 5~12자리의 영문/숫자 조합 <br><span class="highlight">(+특수문자 사용가능, 단 \, ', " 제외)</span></p>
@@ -88,7 +90,7 @@
                                                 <p class="pt-4 mt-2">비밀번호 확인<span class="highlight">*</span></p>
                                             </div>
                                             <div class="col-sm-9 ps-0">
-                                                <input type="password" name="repwd" id="mem_repasswd" class="register-input form-control form-control-user mt-3 rounded-start rounded-4">
+                                                <input type="password" name="repwd" id="mem_repasswd2" class="register-input form-control form-control-user mt-3 rounded-start rounded-4">
                                             </div>
                                         </div>
                                         <!-- 이메일 -->
@@ -97,7 +99,7 @@
                                                 <p class="pt-4 mt-2">이메일<span class="highlight">*</span></p>
                                             </div>
                                             <div class="col-sm-9 ps-0">
-                                                <input type="text" name="email" id="mem_email"  class="register-input form-control form-control-user mt-3 rounded-start rounded-4">
+                                                <input type="text" name="email" id="mem_email2" value="${memberInfo.email}"  class="register-input form-control form-control-user mt-3 rounded-start rounded-4">
                                             </div>
                                         </div>
                                         <!-- 휴대전화 -->
@@ -105,21 +107,8 @@
                                             <div class="col-sm-3 mb-3 mb-sm-0">
                                                 <p class="pt-4 mt-2">휴대전화<span class="highlight">*</span></p>
                                             </div>
-                                            <div class="col-sm-2 ps-0 mt-4">
-                                                <div class="input-group mb-3">
-                                                    <select class="form-select" id="number" name="number">
-                                                        <option value="none">선택</option>
-                                                        <option value="010" selected>010</option>
-                                                        <option value="011">011</option>
-                                                        <option value="016">016</option>
-                                                        <option value="017">017</option>
-                                                        <option value="018">018</option>
-                                                        <option value="019">019</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-7">
-                                                <input type="text" name="mphone" id="mphone"  class="register-input form-control form-control-user mt-3 rounded-start rounded-4">
+                                            <div class="col-sm-9 ps-0">
+                                                <input type="text" name="mphone" id="mphone2" value="${memberInfo.mphone}"  class="register-input form-control form-control-user mt-3 rounded-start rounded-4">
                                             </div>
                                         </div>
                                         <!-- 우편번호, 주소 -->
@@ -128,21 +117,26 @@
                                                 <p class="pt-4 mt-2">주소<span class="highlight">*</span></p>
                                             </div>
                                             <div class="col-sm-9 row">
-                                                <input type="text" name="zipcode" id="mem_zipcode" class="col-sm-8 register-input form-control form-control-user mt-3 rounded-start rounded-4 input-zipcode" 
-                                                   id="mem_zipcode">
-                                                <button class="col-sm-4 btn btn-outline-secondary ms-3 mt-3 btn-idcheck" type="button" id="zipCheckButton">우편번호</button>
+                                                <input type="text" name="zipcode" id="mem_zipcode2" class="col-sm-8 register-input form-control form-control-user mt-3 rounded-start rounded-4 input-zipcode" 
+                                                   id="mem_zipcode" value="${memberInfo.zipcode}">
+                                                <button class="col-sm-4 btn btn-outline-secondary ms-3 mt-3 btn-idcheck" type="button" id="zipCheckButton2">우편번호</button>
 
-                                                <input type="text" name="addr" id="mem_address" class="register-input form-control form-control-user mt-3 mb-2 rounded-start rounded-4 input-address">
+                                                <input type="text" name="addr" id="mem_address2" value="${memberInfo.addr}" class="register-input form-control form-control-user mt-3 mb-2 rounded-start rounded-4 input-address">
                                             </div>
                                         </div>
                                         <hr>
-                                        <button type="button" id="inputCheck" class="btn btn-login btn-user btn-block mt-4 mb-4">
-                                            회원가입
-                                        </button>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="col-sm-3 col-md-2 ps-2">
+                                              <input type="button" id="myinputCheck" value="수정완료" class="btn btn-login btn-block" />
+                                            </div>
+                                            <div class="col-sm-3 col-md-2 ps-2">
+                                              <input type="button" value="수정취소" class="btn btn-login btn-block" onClick="history.back()" />
+                                            </div>
+                                            <div class="col-sm-3 col-md-2 ps-2">
+                                                <input type="button" value="초기화" class="btn btn-login btn-block" onclick="location.replace(location.href)" />
+                                              </div>
+                                          </div>
                                     </form>
-                                    <div class="text-center">
-                                        <a class="small btn-login no-underline" href="./main.shop">로그인하러 가기</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +148,39 @@
         </div>
 
     </div>
-	<script src="js/register.js"></script>
-    <script src="js/scripts.js?ver=1.1"></script>
+    <script>
+		document.addEventListener("DOMContentLoaded", function() {
+		    var hiddenBirthdayInput = document.getElementById("hiddenBirthday");
+		    var birthdayInput = document.getElementById("birthday2");
+		
+		    // 숨겨진 입력 필드의 값을 가져옴
+		    var hiddenValue = hiddenBirthdayInput.value;
+		
+		    // "yyyy-MM-dd" 형식으로 변환
+		    var dateObj = new Date(hiddenValue);
+		    var year = dateObj.getFullYear();
+		    var month = (dateObj.getMonth() + 1).toString().padStart(2, "0"); // 월은 0부터 시작하므로 +1 해주고 2자리로 패딩
+		    var day = dateObj.getDate().toString().padStart(2, "0"); // 일을 2자리로 패딩
+		    var formattedDate = year + "-" + month + "-" + day;
+		
+		    // 변환된 값을 birthday2 input에 설정
+		    birthdayInput.value = formattedDate;
+		});
+		$(document).ready(function () {
+		    var memberUpdateCheck = ${memberUpdateCheck};
+		    
+		    if (!memberUpdateCheck) {
+		        alert("회원 정보 업데이트에 실패했습니다. 다시 시도해 주세요.");
+		        // 실패한 경우 현재 페이지에 머무르도록 리다이렉트 없이 처리합니다.
+		    }
+		});
+	</script>
+	<!-- footer.jsp-->
+	<jsp:include page="footer.jsp" flush="false" />
+
+	<!-- feedback.jsp-->
+	<jsp:include page="feedback.jsp" flush="false" />
+	<script src="js/meminfo.js"></script>
+	<script src="js/scripts.js?ver=1.3"></script>
 </body>
 </html>

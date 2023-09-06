@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.sql.DataSource;
 
 import com.imitamiller.dto.LoginDTO;
-import com.imitamiller.dto.RegisterDTO;
+import com.imitamiller.dto.MemberDTO;
 import com.imitamiller.dto.ZipcodeDTO;
 
 public interface LoginDAO {
@@ -16,5 +16,8 @@ public interface LoginDAO {
 	LoginDTO loginCheck(String id, String pwd);
 	boolean checkId(String id);
 	ArrayList<ZipcodeDTO> zipcodeRead(String area3);
-	boolean memberInsert(RegisterDTO registerDTO, LoginDTO loginDTO);
+	boolean memberInsert(MemberDTO registerDTO, LoginDTO loginDTO);
+	MemberDTO getMemberInfo(int login_id);
+	boolean memberUpdate(int login_id, MemberDTO memberDTO, LoginDTO loginDTO);
+	boolean deleteMember(int login_id);
 }

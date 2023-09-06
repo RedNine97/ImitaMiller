@@ -2,7 +2,7 @@ package com.imitamiller.dto;
 
 import java.sql.Timestamp;
 
-public class RegisterDTO {
+public class MemberDTO {
 	//member 테이블
 	private int mem_id;//회원번호
 	private String memname;//회원이름

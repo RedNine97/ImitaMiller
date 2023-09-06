@@ -433,8 +433,9 @@
         
         <!-- Bootstrap core JS-->
         <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <script src="js/scripts.js?ver=3.3"></script>
 
     </body>
 </html>

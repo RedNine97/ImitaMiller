@@ -3,8 +3,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-
 <!--메인 네비바-->
 	<div class="">
 		<a href="#!"><img class="img-responsive mx-auto d-block img-fluid"
@@ -38,7 +36,7 @@
 					</li>
 					<li class="nav-item">
 						<c:if test="${not empty loginCheck}">
-							<a class="nav-link me-lg-3" href="#download">마이페이지</a>
+							<a class="nav-link me-lg-3" href="./mypage.shop">마이페이지</a>
 						</c:if>
 					</li>
 				</ul>

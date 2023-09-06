@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.imitamiller.dto.LoginDTO;
-import com.imitamiller.dto.RegisterDTO;
+import com.imitamiller.dto.MemberDTO;
 import com.imitamiller.dto.ZipcodeDTO;
 
 @Repository
@@ -54,6 +54,21 @@ public class LoginDAOImpl implements LoginDAO {
 		return ldto;
 	}
 	
+	//회원 공통부분
+	private MemberDTO memberdto()throws SQLException {
+		MemberDTO mdto = new MemberDTO();
+		mdto.setMem_id(rs.getInt("mem_id"));
+		mdto.setMemname(rs.getString("memname"));
+		mdto.setBirthday(rs.getString("birthday"));
+		mdto.setEmail(rs.getString("email"));
+		mdto.setMphone(rs.getString("mphone"));
+		mdto.setEnrolldate(rs.getTimestamp("enrolldate"));
+		mdto.setAddr(rs.getString("addr"));
+		mdto.setZipcode(rs.getString("zipcode"));
+		
+		return mdto;
+	}
+	
 	//비지니스메서드 구현
 	//1.회원인지를 체크해주는 메서드(인증)
 	public LoginDTO loginCheck(String id, String pwd){
@@ -76,7 +91,7 @@ public class LoginDAOImpl implements LoginDAO {
 			}
 		} catch (SQLException ex) {
 			System.out.println("=loginCheck()에러=");
-			System.out.println("==에러라인 78==");
+			System.out.println("==에러라인 94==");
 			ex.printStackTrace(); 
 		} finally { // DB객체를 해제
 			close(con, pstmt, rs);
@@ -84,42 +99,45 @@ public class LoginDAOImpl implements LoginDAO {
 		return loginDto;
 	}
 	
-	//중복ID를 체크하는 메서드
+	// 2. 중복ID를 체크하는 메서드
 	public boolean checkId(String id) {
-	    boolean Check = false; // 테이블 중복 체크
-	    System.out.println("id 값은 = "+id);
+	    boolean memLoginCheck = false; // memlogin 테이블 중복 체크 결과
+	    boolean managerCheck = false; // manager 테이블 중복 체크 결과
+
 	    try {
 	        // memlogin 테이블에서 중복 체크
 	        con = ds.getConnection();
-	        System.out.println("con=" + con);
-	        String sql = "select id from memlogin where id = ?";
+	        String sql = "SELECT id FROM memlogin WHERE id = ?";
 	        pstmt = con.prepareStatement(sql);
 	        pstmt.setString(1, id);
 	        rs = pstmt.executeQuery();
-	        Check = rs.next(); // true
-	        
+	        memLoginCheck = rs.next(); // memlogin 테이블에서 중복이면 true
+
 	        // manager 테이블에서 중복 체크
-	        String managerSql = "select id from manager where id = ?";
+	        String managerSql = "SELECT id FROM manager WHERE id = ?";
 	        pstmt = con.prepareStatement(managerSql);
 	        pstmt.setString(1, id);
 	        rs = pstmt.executeQuery();
-	        Check = rs.next(); // true
-	        
-	        System.out.println("중복ID를 체크 checkId => " + Check);
+	        managerCheck = rs.next(); // manager 테이블에서 중복이면 true
+
+	        System.out.println("memlogin 테이블 중복 체크 결과: " + memLoginCheck);
+	        System.out.println("manager 테이블 중복 체크 결과: " + managerCheck);
 	    } catch (Exception ex) {
-	        System.out.println("=checkId()에러=");
-	        System.out.println("==에러라인 109==");
+	        System.out.println("checkId() 에러:");
+	        System.out.println("에러 라인 127:");
 	        System.out.println(ex);
-	    } finally { // DB객체를 해제
-			close(con, pstmt, rs);
-		}
-	    
-	    // 중복 ID가 member 또는 manager 테이블에서 발견된 경우 true를 반환
-	    return Check;
+	    } finally {
+	        // DB 객체 해제
+	        close(con, pstmt, rs);
+	    }
+
+	    // 중복 ID가 memlogin 또는 manager 테이블에서 발견된 경우 true를 반환
+	    return memLoginCheck || managerCheck;
 	}
 
+
 	
-	//우편번호를 검색
+	//3.우편번호를 검색
 	public ArrayList<ZipcodeDTO> zipcodeRead(String area3) {
 		ArrayList<ZipcodeDTO> vecList = new ArrayList();// 담을객체
 
@@ -143,7 +161,7 @@ public class LoginDAOImpl implements LoginDAO {
 			}
 		} catch (Exception ex) {
 			System.out.println("=zipcodeRead()에러=");
-			System.out.println("==에러라인 143==");
+			System.out.println("==에러라인 164==");
 			System.out.println(ex);
 		} finally { // DB객체를 해제
 			close(con, pstmt, rs);
@@ -151,7 +169,8 @@ public class LoginDAOImpl implements LoginDAO {
 		return vecList;
 	}
 	
-	public boolean memberInsert(RegisterDTO registerDTO, LoginDTO loginDTO) {
+	//4.회원가입 메서드
+	public boolean memberInsert(MemberDTO registerDTO, LoginDTO loginDTO) {
 	    boolean check = false; // 회원가입 성공 여부
 
 	    try {
@@ -210,7 +229,7 @@ public class LoginDAOImpl implements LoginDAO {
 	            se.printStackTrace();
 	        }
 	        System.out.println("=memberInsert()에러=");
-	        System.out.println("==에러라인 242==");
+	        System.out.println("==에러라인 232==");
 	        ex.printStackTrace();
 	    } finally { // DB 객체를 해제
 	        try {
@@ -224,12 +243,120 @@ public class LoginDAOImpl implements LoginDAO {
 	    return check;
 	}
 
+	//5. 회원테이블의 정보를 가져오는 메서드
+	public MemberDTO getMemberInfo(int login_id) {
+		MemberDTO memberDtoList = null;
+		try {
+			System.out.println("getMemberInfo() memid값 넘오는지 확인=>" + login_id);
+			con = ds.getConnection();
+			sql = "select * from member where mem_id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, login_id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				memberDtoList = memberdto();
+			}
+		} catch (Exception ex) {
+			System.out.println("=memberInsert()에러=");
+	        System.out.println("==에러라인 261==");
+	        System.out.println(ex);
+		} finally {
+			close(con, pstmt,rs);
+		}
+		return memberDtoList;
+	}
+	
+	//6. memberUpdate 회원수정 메서드
+	public boolean memberUpdate(int login_id, MemberDTO memberDTO, LoginDTO loginDTO) {
+		boolean check = false;// 회원수정 성공유무
 
+		try {
+			con = ds.getConnection();
+			// 자동으로 commit(X)
+			con.setAutoCommit(false);
+
+			sql = "update member set memname=?,birthday=?,email=?,mphone=?,addr=?,zipcode=? where mem_id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, memberDTO.getMemname());
+			pstmt.setString(2, memberDTO.getBirthday());
+			pstmt.setString(3, memberDTO.getEmail());
+			pstmt.setString(4, memberDTO.getMphone());
+			pstmt.setString(5, memberDTO.getAddr());
+			pstmt.setString(6, memberDTO.getZipcode());
+			pstmt.setInt(7, login_id);
+
+			int memberupdate = pstmt.executeUpdate();
+
+			if (memberupdate > 0) {// member테이블이 수정되었다면
+				String sql2 = "update memlogin set id=?,pwd=? where login_id=?";
+				pstmt = con.prepareStatement(sql2);
+				pstmt.setString(1, loginDTO.getId());
+				pstmt.setString(2, loginDTO.getPwd());
+				pstmt.setInt(3, login_id);
+
+				int loginupdate = pstmt.executeUpdate();
+
+				if (loginupdate > 0) {// login테이블까지 수정이 되었다면
+					check = true;
+				}
+			}
+
+			// 모든 쿼리가 성공적으로 실행되면 커밋
+			con.commit();// 메모리->실제 테이블에 반영
+		} catch (Exception ex) {
+			// 에러 발생 시 롤백
+			try {
+				con.rollback();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+			System.out.println("=memberUpdate()에러=");
+			System.out.println("==에러라인 314==");
+			ex.printStackTrace();
+		} finally {
+			try {
+				con.setAutoCommit(true); // Auto Commit 모드를 다시 활성화
+				close(con, pstmt);
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+		return check;
+	}
 	
-	
-	
-	
-	
+	// 회원로그인 데이터 삭제->memid, pwd->delete
+	public boolean deleteMember(int login_id) {
+		boolean check = false;// 회원삭제유무
+		try {
+			// DB접속구문
+			con = ds.getConnection();
+			con.setAutoCommit(false);// 시작점
+
+			String sql = "delete from member where mem_id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, login_id);
+			// 1->logout 했다. ,0 -> logout실패
+			int LogoutCheck = pstmt.executeUpdate();// update
+			System.out.println("LogoutCheck=" + LogoutCheck);
+			con.commit();// 오라클의 경우
+
+			if (LogoutCheck == 1) {
+				check = true;// 데이터수정 성공
+			}
+		} catch (Exception ex) {
+			System.out.println("=deleteMemLogin()에러=");
+			System.out.println("==에러라인 348==");
+			System.out.println(ex);
+		} finally { // DB객체를 해제
+			try {
+				con.setAutoCommit(true); 
+				close(con, pstmt);
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+		return check;
+	}
 	
 	
 	

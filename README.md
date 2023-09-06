@@ -29,6 +29,8 @@ Spring MVC를 이용한 쇼핑몰 사이트 제작
 **밸로그 링크** <br>
 [DB, 환경설정, 상품](https://velog.io/@ghdrn221/%EC%8A%A4%ED%94%84%EB%A7%81MVC-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)<br>
 [DB 테이블 수정](https://velog.io/@ghdrn221/%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)<br>
+[로그인 / 로그아웃](https://velog.io/@ghdrn221/%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EB%A1%9C%EA%B7%B8%EC%95%84%EC%9B%83)<br>
+[회원가입](https://velog.io/@ghdrn221/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)<br>
 
 ## 💡 이전 프로젝트
 [모델2로 구현한 프로젝트 밸로그 링크](https://velog.io/@ghdrn221/series/%EB%AA%A8%EB%8D%B82%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)<br>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.imitamiller.dao.LoginDAO;
 import com.imitamiller.dto.LoginDTO;
 import com.imitamiller.dto.MemberDTO;
+import com.imitamiller.dto.SearchDTO;
 import com.imitamiller.dto.ZipcodeDTO;
 
 @Service
@@ -62,4 +63,22 @@ public class LoginServiceImpl implements LoginService {
 		return loginDAO.deleteMember(login_id);
 	}
 
+	@Override
+	public ArrayList<SearchDTO> getSearchId(String memname, String email) {
+		// TODO Auto-generated method stub
+		return loginDAO.getSearchId(memname, email);
+	}
+
+	@Override
+	public SearchDTO searchPwd(String id) {
+		// TODO Auto-generated method stub
+		return loginDAO.searchPwd(id);
+	}
+
+	@Override
+	public boolean pwdSearchUpdate(String id, String pwd) {
+		// TODO Auto-generated method stub
+		return loginDAO.pwdSearchUpdate(id, pwd);
+	}
+	
 }

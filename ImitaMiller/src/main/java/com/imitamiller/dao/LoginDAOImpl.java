@@ -14,7 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import com.imitamiller.dto.LoginDTO;
 import com.imitamiller.dto.MemberDTO;
+import com.imitamiller.dto.SearchDTO;
 import com.imitamiller.dto.ZipcodeDTO;
+
 
 @Repository
 public class LoginDAOImpl implements LoginDAO {
@@ -34,15 +36,18 @@ public class LoginDAOImpl implements LoginDAO {
 		System.out.println("setDs()호출되서 DB연결됨(ds)");
 	}
 	
-	private void close(AutoCloseable ... objs) {
-        try {
-            for(AutoCloseable obj : objs) {
-                obj.close();
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
- }
+	private void close(AutoCloseable... objs) {
+	    try {
+	        for (AutoCloseable obj : objs) {
+	            if (obj != null) {
+	                obj.close();
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
 	
 	// 회원로그인 공통부분
 	private LoginDTO logindto() throws SQLException {
@@ -324,7 +329,7 @@ public class LoginDAOImpl implements LoginDAO {
 		return check;
 	}
 	
-	// 회원로그인 데이터 삭제->memid, pwd->delete
+	//7. 회원로그인 데이터 삭제->memid, pwd->delete
 	public boolean deleteMember(int login_id) {
 		boolean check = false;// 회원삭제유무
 		try {
@@ -358,11 +363,105 @@ public class LoginDAOImpl implements LoginDAO {
 		return check;
 	}
 	
+	//8.아이디 찾기
+	public ArrayList<SearchDTO> getSearchId(String memname, String email) {
+	    ArrayList<SearchDTO> idList = new ArrayList<>();
+
+	    try {
+	        // DB접속구문
+	        con = ds.getConnection();
+	        String sql = "SELECT m.memname, m.enrolldate, ml.id " +
+                    "FROM member m " +
+                    "INNER JOIN memlogin ml ON m.mem_id = ml.login_id " +
+                    "WHERE m.memname = ? AND m.email = ?";
+	        pstmt = con.prepareStatement(sql);
+	        pstmt.setString(1, memname);
+	        pstmt.setString(2, email);
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            // searchDTO 객체를 생성하여 데이터 설정
+	        	SearchDTO searchDTO = new SearchDTO();
+				searchDTO.setId(rs.getString("id"));
+				searchDTO.setMemname(rs.getString("memname"));
+				searchDTO.setEnrolldate(rs.getTimestamp("enrolldate"));
+
+	            // idList에 searchDTO 추가
+	            idList.add(searchDTO);
+	        }
+	    } catch (Exception ex) {
+	        System.out.println("=searchId()에러=");
+	        System.out.println("==에러라인 391==");
+	        System.out.println(ex);
+	    } finally { // DB객체를 해제
+	        close(con, pstmt, rs);
+	    }
+	    return idList;
+	}
 	
+	//9.비밀번호 찾기
+  	//id로 검색해서 id와 memname, email을 꺼내온다.
+  	public SearchDTO searchPwd(String id){
+  		SearchDTO searchDto = null;
+
+		try
+		{
+		  //DB접속구문
+		  con = ds.getConnection();
+		  String sql = "SELECT m.memname, m.email, ml.id " +
+                  "FROM member m " +
+                  "INNER JOIN memlogin ml ON m.mem_id = ml.login_id " +
+                  "WHERE ml.id = ?";
+	      pstmt = con.prepareStatement(sql);
+		  pstmt.setString(1,id);
+		  rs = pstmt.executeQuery();
+		  
+		  //검색한 데이터를 찾아서 DTO에 담는코딩
+		   if(rs.next()){//찾은 데이터가 있다면
+			   searchDto = new SearchDTO();
+			   searchDto.setId(rs.getString("id"));
+			   searchDto.setMemname(rs.getString("memname"));
+			   searchDto.setEmail(rs.getString("email"));
+		   }
+		}
+		catch (Exception ex)
+		{
+	      System.out.println("=getMember()에러=");
+		  System.out.println("==에러라인 358==");
+	      System.out.println(ex);
+		}finally{	//DB객체를 해제
+			close(con, pstmt, rs);
+		}
+	   return searchDto;
+	  }
 	
-	
-	
-	
+		//10. 비밀번호 변경(Update)
+		public boolean pwdSearchUpdate(String id, String pwd) {
+			boolean check = false;// 비밀번호 수정 성공유무
+
+			try {
+				con = ds.getConnection();
+				con.setAutoCommit(false);
+				String sql = "update memlogin set pwd=? where id=?";
+
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, pwd);
+				pstmt.setString(2, id);
+
+				int update = pstmt.executeUpdate();// 반환값 1 (성공), 0 (실패)
+				con.commit();// 메모리를 테이블에 반영된다.
+				//System.out.println("update(데이터 수정 유무) => " + update);
+				if (update > 0) {
+					check = true;
+				}
+			} catch (Exception e) {
+				System.out.println("=pwdSearchUpdate()에러=");
+				System.out.println("==에러라인 459==");
+			} finally {
+				close(con, pstmt);
+			}
+			return check;
+		}
 	
 	
 	

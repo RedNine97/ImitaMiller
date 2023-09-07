@@ -19,7 +19,7 @@
         
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
-        
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     	<!-- top.jsp -->
     	<jsp:include page="header.jsp" flush="false" />
     </head>
@@ -56,11 +56,11 @@
                     </a>
                   </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Next</span>
                 </button>
@@ -436,6 +436,5 @@
         <script src="js/bootstrap.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js?ver=3.3"></script>
-
     </body>
 </html>

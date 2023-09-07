@@ -29,7 +29,7 @@
                     <div class="text-center">
                         <h1 class="h4 mb-4 pb-5">MY PAGE</h1>
                     </div>
-                    <form name="mypage">
+                    <form name="mypage" class="user">
                         <div class="row">
                             <div class="col-sm-6">
                               <div class="card">

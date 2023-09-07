@@ -29,7 +29,7 @@
                     <div class="text-center">
                         <h1 class="h4 mb-4 pb-5">회원 탈퇴</h1>
                     </div>
-                    <form name="memdelete" method="POST" action="memberdelete.shop">
+                    <form name="memdelete" method="POST" action="memberdelete.shop" class="user">
                       <div class="m-5 p-2">
                         <div class="row">
                             <div class="col-sm-12">

@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 
 import com.imitamiller.dto.LoginDTO;
 import com.imitamiller.dto.MemberDTO;
+import com.imitamiller.dto.SearchDTO;
 import com.imitamiller.dto.ZipcodeDTO;
 
 public interface LoginDAO {
@@ -20,4 +21,7 @@ public interface LoginDAO {
 	MemberDTO getMemberInfo(int login_id);
 	boolean memberUpdate(int login_id, MemberDTO memberDTO, LoginDTO loginDTO);
 	boolean deleteMember(int login_id);
+	ArrayList<SearchDTO> getSearchId(String memname, String email);
+	SearchDTO searchPwd(String id);
+	boolean pwdSearchUpdate(String id, String pwd);
 }

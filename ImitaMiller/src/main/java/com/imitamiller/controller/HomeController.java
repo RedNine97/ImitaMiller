@@ -75,7 +75,7 @@ public class HomeController {
 	}
 	
 	@GetMapping("/mypage.shop")
-	public String mypage() {
+	public String getMypage() {
 		return "/mypage";
 	}
 	

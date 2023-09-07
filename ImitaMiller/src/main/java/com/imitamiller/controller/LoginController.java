@@ -1,6 +1,5 @@
 package com.imitamiller.controller;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.imitamiller.dto.LoginDTO;
 import com.imitamiller.dto.MemberDTO;
+import com.imitamiller.dto.SearchDTO;
 import com.imitamiller.dto.ZipcodeDTO;
 import com.imitamiller.service.LoginService;
 
@@ -28,13 +28,14 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 	
+	//로그인 ---------------------------------------------------------------------------------------
 	@GetMapping("login.shop")
-	public String login() {
+	public String getlogin() {
 		return "/login";
 	}
 	
 	@GetMapping("logout.shop")
-    public String logout(HttpSession session) {
+    public String getlogout(HttpSession session) {
         // 세션에서 사용자 정보 삭제
         session.removeAttribute("loginCheck");
         session.removeAttribute("login_id");
@@ -43,23 +44,9 @@ public class LoginController {
         return "redirect:/main.shop"; // 로그아웃 후 리다이렉트할 페이지
     }
 	
-	@GetMapping("register.shop")
-	public String register() {
-		return "/register";
-	}
-	
-	@GetMapping("zipcheck.shop")
-	public String zipcheck() {
-		return "/zipcheck";
-	}
-	
-	/*
-	 * public String hello() -> return "home"; (/home.jsp로 전환)
-	 * 이동하면서 데이터도 전달 -> ModelAndView
-	 * 메서드 -> 다른 컨트롤러 이용 -> redirect:/요청명령어를 이용 -> return "redirect:/요청명령어";
-	*/
+	//로그인 post
 	@RequestMapping(value="login.shop", method=RequestMethod.POST)
-	public String getLogin(@RequestParam("inputID") String id, 
+	public String postLogin(@RequestParam("inputID") String id, 
 									  @RequestParam("inputPassword") String pwd,
 							           HttpSession session) throws Exception {	
 		
@@ -78,9 +65,20 @@ public class LoginController {
 	    return "redirect:/main.shop";
 	}
 	
-	//회원가입
+	//회원가입 -------------------------------------------------------------------------------------------
+	@GetMapping("register.shop")
+	public String getregister() {
+		return "/register";
+	}
+	
+	@GetMapping("zipcheck.shop")
+	public String getzipcheck() {
+		return "/zipcheck";
+	}
+	
+	//회원가입 post
 	@RequestMapping(value="register.shop", method=RequestMethod.POST)
-	public String registerMember(@ModelAttribute("RegisterDTO") MemberDTO registerDTO,
+	public String postRegisterMember(@ModelAttribute("RegisterDTO") MemberDTO registerDTO,
 												@ModelAttribute("LoginDTO") LoginDTO loginDTO,
 												@RequestParam("number") String number) throws Exception {	
 		
@@ -108,7 +106,7 @@ public class LoginController {
 	
 	//우편번호
 	@RequestMapping(value="zipcheck.shop", method=RequestMethod.POST)
-	public String getZipcode(@RequestParam("check") String check, 
+	public String postZipcode(@RequestParam("check") String check, 
 										@RequestParam("area3") String area3,
 										Model model) throws Exception {	
 		
@@ -128,8 +126,9 @@ public class LoginController {
 		return "zipcheck";
 	}
 	
+	//마이페이지 --------------------------------------------------------------------------
 	@GetMapping("/myinfo.shop")
-	public ModelAndView myinfo(HttpSession session) {
+	public ModelAndView getMyinfo(HttpSession session) {
 		LoginDTO loginCheck = (LoginDTO) session.getAttribute("loginCheck");
         // 회원 로그인의 로그인번호로 회원의 회원번호를 활용한 MemberDTO 검색
         // 로그인번호 equal 회원번호
@@ -142,7 +141,7 @@ public class LoginController {
 	}
 	
 	@PostMapping(value = "memupdate.shop")
-	public String myinfopost(@ModelAttribute("MemberDTO") MemberDTO memberDTO,
+	public String postMyinfo(@ModelAttribute("MemberDTO") MemberDTO memberDTO,
 										@ModelAttribute("LoginDTO") LoginDTO loginDTO,
 										HttpSession session) {
 		//세션에 저장된 회원번호
@@ -167,7 +166,7 @@ public class LoginController {
 	 
 	//회원탈퇴 페이지
 	@GetMapping("memdelete.shop")
-	public ModelAndView memdelete(HttpSession session) {
+	public ModelAndView getMemdelete(HttpSession session) {
 		
 		LoginDTO loginCheck = (LoginDTO) session.getAttribute("loginCheck");
 		ModelAndView mav = new ModelAndView("memdelete");
@@ -180,7 +179,7 @@ public class LoginController {
 	
 	//회원정보 삭제
 	@PostMapping(value = "memberdelete.shop")
-	public String memberDelete(HttpSession session) {
+	public String postMemberDelete(HttpSession session) {
 		//세션에 저장된 회원번호
 		int login_id = (int) session.getAttribute("login_id");
 		
@@ -194,5 +193,83 @@ public class LoginController {
 		
 		return "redirect:/main.shop";
 	}
-
+	
+	//아이디 찾기 ----------------------------------------------------------
+	@GetMapping("search_id.shop")
+	public String getSearch_id() {
+		return "/search_id";
+	}
+	
+	//이름과 이메일을 받아와서 이름, 회원가입일, 아이디, 총 검색갯수(계정이 여러개일 경우)를 받아온다.
+	@PostMapping("search_idproc.shop")
+	public String postSearch_id(@RequestParam("memname") String memname, 
+											  @RequestParam("email") String email,
+											  Model model) {
+		ArrayList<SearchDTO> searchId = loginService.getSearchId(memname, email);
+		int totalList = searchId.size();
+		System.out.println("totalList"+totalList);
+		
+		model.addAttribute("totalList", totalList);//검색갯수
+		model.addAttribute("searchId", searchId); 
+		model.addAttribute("memname", memname); 
+		model.addAttribute("email", email);
+		return "/search_idproc";
+	}
+	
+	@GetMapping("search_idproc.shop")
+	public String getSearch_idproc() {
+		return "/search_idproc";
+	}
+	
+	//비밀번호 찾기 ------------------------------------------------------------
+	@GetMapping("search_pwd1.shop")
+	public String getSearch_pwd1() {
+		return "/search_pwd1";
+	}
+	
+	@PostMapping("search_pwd2.shop")
+	public String postSearch_pwd2(@RequestParam("id") String id,
+													Model model) {
+		
+		SearchDTO searchDto = loginService.searchPwd(id);
+		model.addAttribute("searchDto", searchDto);
+		
+		return "/search_pwd2";
+	}
+	
+	@GetMapping("search_pwd2.shop")
+	public String getSearch_pwd2() {
+		return "/search_pwd2";
+	}
+	
+	@PostMapping("search_pwd_update.shop")
+	public ModelAndView postSearch_pwd_update(@RequestParam("memidDb") String id) {
+		
+		ModelAndView mav = new ModelAndView("search_pwd_update");
+		mav.addObject("id",id);
+		
+		return mav;
+	}
+	
+	@PostMapping("search_pwd_updateproc.shop")
+	public String postSearch_pwd_updateproc(@RequestParam("id") String id,
+																	@RequestParam("pwd") String pwd) {
+		
+		boolean pwdUpdateCheck = loginService.pwdSearchUpdate(id, pwd);
+		
+		if (pwdUpdateCheck == false) {
+			System.out.println("pwdUpdateCheck가 실패 => "+pwdUpdateCheck);
+			return "redirect:/search_pwd1.shop";
+		}
+		
+		return "redirect:/main.shop";
+	}
+	
+	@GetMapping("search_pwd_update.shop")
+	public String getSearch_pwd_update() {
+		return "/search_pwd_update";
+	}
+	
+	
+	
 }

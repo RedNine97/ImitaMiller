@@ -17,4 +17,6 @@ public interface ProductService {
 	List<ProductDTO> getProductList(int start,int end,String search,String searchtext, String sort);
 	List<ProductDTO> getRecommendProduct(int start,int end);
 	ProductDTO getProductDetail(int pID);
+	ProductDTO getProductUpdate(int pID);
+	boolean productUpdateProc(ProductDTO product);
 }

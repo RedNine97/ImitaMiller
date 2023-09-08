@@ -7,12 +7,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.imitamiller.dto.LoginDTO;
+import com.imitamiller.dto.ManagerDTO;
 import com.imitamiller.dto.ProductDTO;
 import com.imitamiller.service.ProductService;
 
@@ -28,8 +29,8 @@ public class HomeController {
 
 		// 로그인 상태
 		LoginDTO loginCheck = (LoginDTO) session.getAttribute("loginCheck");
+		ManagerDTO managerCheck = (ManagerDTO) session.getAttribute("managerCheck");
 		System.out.println("loginCheck => "+loginCheck);
-		//session.setAttribute("loginCheck", loginCheck);
 		
 		//베스트 상품
 		List<ProductDTO> differentProduct=productService.getRecommendProduct(1, 9);//추천 상품
@@ -57,9 +58,13 @@ public class HomeController {
 			login_id = loginCheck.getLogin_id(); // 회원로그인의 회원번호
 		    String id = loginCheck.getId(); // 회원로그인의 회원아이디
 		    String pwd = loginCheck.getPwd(); // 회원로그인의 비밀번호
+		    
 		    session.setAttribute("login_id", login_id);
 		    mav.addObject("loginCheck",loginCheck);
-		} 
+		}else if(managerCheck != null) {
+			
+			mav.addObject("managerCheck",managerCheck);
+		}
 		mav.addObject("best",differentProduct);
 		mav.addObject("list1",chair);
 		mav.addObject("list2",kitchen);
@@ -74,9 +79,11 @@ public class HomeController {
 		return mav;
 	}
 	
-	@GetMapping("/mypage.shop")
-	public String getMypage() {
-		return "/mypage";
+    //에러 페이지
+	@GetMapping("/error.shop")
+	public ModelAndView getError(@RequestParam("errormessage") String errormessage) {
+		ModelAndView mav=new ModelAndView("error");
+		mav.addObject("errormessage",errormessage);//에러메세지
+		return mav;
 	}
-	
 }

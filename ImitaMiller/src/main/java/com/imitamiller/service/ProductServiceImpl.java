@@ -115,4 +115,16 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.getProductDetail(pID);
 	}
 
+	@Override
+	public ProductDTO getProductUpdate(int pID) {
+		// TODO Auto-generated method stub
+		return productDAO.getProductUpdate(pID);
+	}
+
+	@Override
+	public boolean productUpdateProc(ProductDTO product) {
+		// TODO Auto-generated method stub
+		return productDAO.productUpdateProc(product);
+	}
+	
 }

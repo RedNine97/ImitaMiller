@@ -52,7 +52,7 @@
 			<version>12.1.0.1</version>
 		</dependency>
 		
-		<!--Spring MVC jar파일,JNDI  -->
+		<!--Spring MVC jar파일  -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -100,7 +100,6 @@
 		    <version>1.4.7</version>
 		</dependency>
 
-		
 	</dependencies>	
   
   <!-- -->

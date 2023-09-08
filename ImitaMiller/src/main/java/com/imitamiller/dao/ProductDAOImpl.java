@@ -238,4 +238,57 @@ public class ProductDAOImpl implements ProductDAO {
 			}
 			return productList;
 		}
+		
+		//수정할 상품을 찾을 메서드
+		public ProductDTO getProductUpdate(int pID) {
+			
+	      ProductDTO product=null;
+			try {
+				con=ds.getConnection();
+				sql="select * from product where pID=?";
+				pstmt=con.prepareStatement(sql);
+				pstmt.setInt(1, pID);
+				rs=pstmt.executeQuery();
+				if(rs.next()) {
+					 product=makepdto();
+				}
+			}catch(Exception e) {
+				System.out.println("getProductUpdate() 에러유발=>"+e);
+			}finally {
+				close(con, pstmt, rs);
+			}
+			return product;
+		}
+		
+		//상품수정
+		public boolean productUpdateProc(ProductDTO product) {
+
+			boolean check = false;  // 게시물의 수정성공유무
+
+			try {// 기존 상품 정보 조회
+				con = ds.getConnection();
+
+				sql = "update product set pprice=?,psize=?,pfinishing=?,pcategory=?,ptype=?,psizemgpath=?,imgpath=?,pname=? where pID=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, product.getPprice());
+				pstmt.setString(2, product.getPsize());
+				pstmt.setString(3, product.getPfinishing());
+				pstmt.setString(4, product.getPcategory());
+				pstmt.setString(5, product.getPtype());
+				pstmt.setString(6, product.getPsizemgpath());
+				pstmt.setString(7, product.getImgpath());
+				pstmt.setString(8, product.getPname());
+				pstmt.setInt(9, product.getpID());
+				int update = pstmt.executeUpdate();
+				if (update > 0) {
+					check = true;
+				}
+				
+			} catch (Exception e) {
+				System.out.println("productUpdate() 메서드 에러유발=>" + e);
+			} finally {
+				close(con, pstmt, rs);
+			}
+			return check;
+		}
 }

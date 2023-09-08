@@ -25,18 +25,25 @@
 					<li class="nav-item">
 						<!-- memlogin 정보가 없을 때 --> 
 						<c:choose>
-							<c:when test="${empty loginCheck}">
-								<a class="nav-link me-lg-" href="./login.shop">로그인</a>
-							</c:when>
-							<c:when test="${not empty loginCheck}">
-								<a class="nav-link me-lg-3" href="javascript:void(0);" onclick="Logout();">로그아웃</a>
-								<!-- 프로필 사진 위치 -->
-							</c:when>
+						    <c:when test="${not empty loginCheck}">
+						        <a class="nav-link me-lg-3" href="javascript:void(0);" onclick="Logout();">로그아웃</a>
+						    </c:when>
+						    <c:when test="${empty loginCheck and not empty managerCheck}">
+						        <!-- managerCheck에 값이 있을 때 -->
+						        <a class="nav-link me-lg-3" href="javascript:void(0);" onclick="Logout();">로그아웃</a>
+						    </c:when>
+						    <c:when test="${empty loginCheck and empty managerCheck}">
+						        <!-- 둘 다 값이 없을 때 -->
+						        <a class="nav-link me-lg-" href="./login.shop">로그인</a>
+						    </c:when>
 						</c:choose>
 					</li>
 					<li class="nav-item">
 						<c:if test="${not empty loginCheck}">
 							<a class="nav-link me-lg-3" href="./mypage.shop">마이페이지</a>
+						</c:if>
+						<c:if test="${not empty managerCheck}">
+							<a class="nav-link me-lg-3" href="./adminpage.shop">관리자페이지</a>
 						</c:if>
 					</li>
 				</ul>

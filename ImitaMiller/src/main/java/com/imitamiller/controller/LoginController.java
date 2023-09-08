@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.imitamiller.dto.LoginDTO;
+import com.imitamiller.dto.ManagerDTO;
 import com.imitamiller.dto.MemberDTO;
 import com.imitamiller.dto.SearchDTO;
 import com.imitamiller.dto.ZipcodeDTO;
@@ -34,10 +35,12 @@ public class LoginController {
 		return "/login";
 	}
 	
+	//로그아웃
 	@GetMapping("logout.shop")
     public String getlogout(HttpSession session) {
         // 세션에서 사용자 정보 삭제
         session.removeAttribute("loginCheck");
+        session.removeAttribute("managerCheck");
         session.removeAttribute("login_id");
         session.invalidate(); // 세션 무효화
         
@@ -49,18 +52,24 @@ public class LoginController {
 	public String postLogin(@RequestParam("inputID") String id, 
 									  @RequestParam("inputPassword") String pwd,
 							           HttpSession session) throws Exception {	
-		
+		//일반회원인지 확인
 		LoginDTO loginCheck = loginService.loginCheck(id, pwd);
+		//관리자인지 확인
+		ManagerDTO managerCheck = loginService.managerCheck(id, pwd);
 		
-		if (loginCheck == null) {
+		if (loginCheck == null && managerCheck == null) {
 		System.out.println("getLogin loginCheck 결과 로그인 실패 다시 로그인");
 		return "redirect:/login.shop";
 		}
 		
+		//관리자라면 관리자 정보 세션에 담기
+		if (managerCheck != null) {
+			session.setAttribute("managerCheck", managerCheck);
+		}else {
+			//일반회원이라면 로그인 정보 세션에 담기
+		    session.setAttribute("loginCheck", loginCheck);
+		}
 		
-		// 로그인 성공 시 세션에 저장
-	    session.setAttribute("loginCheck", loginCheck);
-
 	    System.out.println("getLogin loginCheck 결과 로그인 성공 후 메인페이지");
 	    return "redirect:/main.shop";
 	}
@@ -124,74 +133,6 @@ public class LoginController {
 	    model.addAttribute("check", check);
 		
 		return "zipcheck";
-	}
-	
-	//마이페이지 --------------------------------------------------------------------------
-	@GetMapping("/myinfo.shop")
-	public ModelAndView getMyinfo(HttpSession session) {
-		LoginDTO loginCheck = (LoginDTO) session.getAttribute("loginCheck");
-        // 회원 로그인의 로그인번호로 회원의 회원번호를 활용한 MemberDTO 검색
-        // 로그인번호 equal 회원번호
-        MemberDTO memberInfo = loginService.getMemberInfo(loginCheck.getLogin_id());
-
-        ModelAndView mav = new ModelAndView("myinfo");
-        mav.addObject("memberInfo", memberInfo);
-
-        return mav;
-	}
-	
-	@PostMapping(value = "memupdate.shop")
-	public String postMyinfo(@ModelAttribute("MemberDTO") MemberDTO memberDTO,
-										@ModelAttribute("LoginDTO") LoginDTO loginDTO,
-										HttpSession session) {
-		//세션에 저장된 회원번호
-		int login_id = (int) session.getAttribute("login_id");
-		
-		boolean memberUpdateCheck = 
-				loginService.memberUpdate(login_id, memberDTO, loginDTO);
-		
-		System.out.println("memberUpdateCheck => "+memberUpdateCheck);
-		
-		if (!memberUpdateCheck) {
-	        return "redirect:/myinfo.shop";
-	    }
-		
-		// 세션에서 사용자 정보 삭제
-		session.removeAttribute("loginCheck");
-		session.removeAttribute("login_id");
-		session.invalidate(); // 세션 무효화
-		
-		return "redirect:/login.shop";
-	}
-	 
-	//회원탈퇴 페이지
-	@GetMapping("memdelete.shop")
-	public ModelAndView getMemdelete(HttpSession session) {
-		
-		LoginDTO loginCheck = (LoginDTO) session.getAttribute("loginCheck");
-		ModelAndView mav = new ModelAndView("memdelete");
-		
-		//사용자가 입력한 비밀번호와 DB에서 꺼내온 비밀번호로 유효성검사
-		mav.addObject("loginCheck",loginCheck);
-		
-		return mav;
-	}
-	
-	//회원정보 삭제
-	@PostMapping(value = "memberdelete.shop")
-	public String postMemberDelete(HttpSession session) {
-		//세션에 저장된 회원번호
-		int login_id = (int) session.getAttribute("login_id");
-		
-		boolean memberDeleteCheck = loginService.deleteMember(login_id);
-		System.out.println("memberDelete => "+memberDeleteCheck);
-		
-		// 세션에서 사용자 정보 삭제
-		session.removeAttribute("loginCheck");
-		session.removeAttribute("login_id");
-		session.invalidate(); // 세션 무효화
-		
-		return "redirect:/main.shop";
 	}
 	
 	//아이디 찾기 ----------------------------------------------------------
@@ -269,7 +210,5 @@ public class LoginController {
 	public String getSearch_pwd_update() {
 		return "/search_pwd_update";
 	}
-	
-	
 	
 }

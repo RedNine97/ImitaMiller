@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.imitamiller.dto.LoginDTO;
+import com.imitamiller.dto.ManagerDTO;
 import com.imitamiller.dto.MemberDTO;
 import com.imitamiller.dto.SearchDTO;
 import com.imitamiller.dto.ZipcodeDTO;
@@ -463,7 +464,35 @@ public class LoginDAOImpl implements LoginDAO {
 			return check;
 		}
 	
-	
+		//11. 관리자로 로그인했는지 체크
+		// id로 확인하는 이유는 회원가입시 관리자 id도 중복 체크하기 때문이다.
+		public ManagerDTO managerCheck(String id, String pwd) {
+			ManagerDTO managerDto = null;
+			try {
+				con=ds.getConnection();
+				System.out.println("con=>"+con);
+				sql="SELECT * FROM manager WHERE id = ? and pwd = ?";
+				pstmt=con.prepareStatement(sql);
+				pstmt.setString(1,id);
+				pstmt.setString(2, pwd);
+				rs=pstmt.executeQuery();
+				if(rs.next()) {
+					managerDto = new ManagerDTO();
+					managerDto.setMan_id(rs.getInt("man_id"));
+					managerDto.setId(rs.getString("id"));
+					managerDto.setPwd(rs.getString("pwd"));
+					managerDto.setName(rs.getString("name"));
+					managerDto.setEmail(rs.getString("email"));
+				}
+
+			}catch(Exception e) {
+				System.out.println("checkManager() 에러발생=>"+e);
+				System.out.println("==에러라인 489==");
+			}finally {
+				close(con, pstmt,rs);
+			}
+			return managerDto;
+		}
 	
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.imitamiller.dao.LoginDAO;
 import com.imitamiller.dto.LoginDTO;
+import com.imitamiller.dto.ManagerDTO;
 import com.imitamiller.dto.MemberDTO;
 import com.imitamiller.dto.SearchDTO;
 import com.imitamiller.dto.ZipcodeDTO;
@@ -79,6 +80,12 @@ public class LoginServiceImpl implements LoginService {
 	public boolean pwdSearchUpdate(String id, String pwd) {
 		// TODO Auto-generated method stub
 		return loginDAO.pwdSearchUpdate(id, pwd);
+	}
+
+	@Override
+	public ManagerDTO managerCheck(String id, String pwd) {
+		// TODO Auto-generated method stub
+		return loginDAO.managerCheck(id, pwd);
 	}
 	
 }

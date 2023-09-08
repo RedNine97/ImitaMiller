@@ -46,6 +46,7 @@ public class ProductDTO {
 		this.pprice = pprice;
 	}
 	public void setCount(int count) {
+		count=0;
 		this.count = count;
 	}
 	public void setPname(String pname) {

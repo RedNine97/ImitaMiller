@@ -1,5 +1,5 @@
 # ImitaMiller
-Spring MVC를 이용한 쇼핑몰 사이트 제작
+Spring MVC로 구현한 쇼핑몰 사이트 제작
 
 ## 💡 프로젝트 소개
 스프링MVC로 구현한 가구 쇼핑몰입니다. 그동안 배웠던 것들을 녹일 수 있는 것은 <br>
@@ -32,6 +32,7 @@ Spring MVC를 이용한 쇼핑몰 사이트 제작
 [로그인 / 로그아웃](https://velog.io/@ghdrn221/%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EB%A1%9C%EA%B7%B8%EC%95%84%EC%9B%83)<br>
 [회원가입](https://velog.io/@ghdrn221/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)<br>
 [마이페이지](https://velog.io/@ghdrn221/%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80)<br>
+[아이디, 비밀번호 찾기](https://velog.io/@ghdrn221/%EC%95%84%EC%9D%B4%EB%94%94-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%B0%BE%EA%B8%B0)<br>
 
 ## 💡 이전 프로젝트
 [모델2로 구현한 프로젝트 밸로그 링크](https://velog.io/@ghdrn221/series/%EB%AA%A8%EB%8D%B82%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)<br>

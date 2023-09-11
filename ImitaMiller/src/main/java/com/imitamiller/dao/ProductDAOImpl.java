@@ -291,4 +291,89 @@ public class ProductDAOImpl implements ProductDAO {
 			}
 			return check;
 		}
+		
+		// 상품등록
+		public boolean ProductInsert(ProductDTO product) {
+			boolean check = false; //상품등록 성공 여부
+			
+			try {//기존 상품 pID MAX값을 조회
+		        con = ds.getConnection();
+		        con.setAutoCommit(false); // Auto Commit 모드를 비활성화
+
+		        // 1. 먼저 최대 pID를 검색
+		        String maxIdQuery = "SELECT MAX(pID) AS max_pid FROM product";
+		        pstmt = con.prepareStatement(maxIdQuery);
+		        rs=pstmt.executeQuery();
+		        int maxPId = 0;
+		        
+		        if (rs.next()) {
+		        	maxPId = rs.getInt("max_pid");
+		        
+					// 2. 다음으로 최대 pID에서 +1 한 값을 사용하여 데이터를 삽입
+					String insertQuery = "INSERT INTO product (pID, pname, psize, pfinishing, pprice, ptype, pcategory, psizemgpath, imgpath, count) "
+													+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					pstmt = con.prepareStatement(insertQuery);
+					pstmt.setInt(1, maxPId + 1);
+					pstmt.setString(2, product.getPname());
+					pstmt.setString(3, product.getPsize());
+					pstmt.setString(4, product.getPfinishing());
+					pstmt.setInt(5, product.getPprice());
+					pstmt.setString(6, product.getPtype());
+					pstmt.setString(7, product.getPcategory());
+					pstmt.setString(8, product.getPsizemgpath());
+					pstmt.setString(9, product.getImgpath());
+					pstmt.setInt(10, product.getCount());
+	
+					int insert = pstmt.executeUpdate();
+					System.out.println("ProductInsert 테이블" + insert);
+	
+					if (insert > 0) {
+						check = true; // 상품등록 성공
+					}
+		        }
+				con.commit(); //커밋
+			} catch (Exception e) {
+				System.out.println("ProductInsert() 에러유발=>" + e);
+			}  finally {// DB 객체를 해제
+		        try {
+		            con.setAutoCommit(true); // Auto Commit 모드를 다시 활성화
+		            close(con, pstmt);
+		        } catch (SQLException se) {
+		            se.printStackTrace();
+		        }
+		    }
+			return check;
+		}
+		
+		//상품삭제
+		public boolean getProductDelete(int pID) {
+			boolean check = false;// 상품 삭제유무
+			try {
+				// DB접속구문
+				con = ds.getConnection();
+				con.setAutoCommit(false);// 시작점
+
+				String sql = "delete from product where pID = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, pID);
+				// 1->delete 했다. ,0 -> delete실패
+				int delete = pstmt.executeUpdate();
+				
+				con.commit();// 오라클의 경우
+				if (delete == 1) {
+					check = true;// 데이터수정 성공
+				}
+			} catch (Exception ex) {
+				System.out.println("=getProductDelete()에러=");
+				System.out.println(ex);
+			} finally { // DB객체를 해제
+				try {
+					con.setAutoCommit(true); 
+					close(con, pstmt);
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			return check;
+		}
 }

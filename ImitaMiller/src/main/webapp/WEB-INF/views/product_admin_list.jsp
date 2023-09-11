@@ -46,7 +46,7 @@
 							<a href="./product_detail.shop?pID=${p.pID}&pageNum=${pgList.currentPage}" class="d-block overflow-hidden position-relative my-custom-link-style">
 								<div class="card h-100">
 									<!-- 상품 이미지-->
-									<img class="card-img-top" src="${p.imgpath}.jpg" />
+									<img class="card-img-top" src="${p.imgpath}" />
 									<!-- 상품 내용-->
 									<div class="card-body p-4">
 										<div class="text-start">
@@ -65,7 +65,7 @@
 							</a>
 							<div class="row m-0 pt-1">
 								<button onclick="location.href='./product_admin_update.shop?pID=${p.pID}'"  class="col btn btn-primary ms-1">수정</button>
-								<button onclick="location.href='./product_admin_delete?pID=${p.pID}'" class="col btn btn-primary ms-1">삭제</button>
+								<button onclick="location.href='./product_admin_delete.shop?pID=${p.pID}'" class="col btn btn-primary ms-1">삭제</button>
 							</div>
 						</div>
 					</c:forEach>
@@ -73,7 +73,7 @@
 				</div>
 			</div>
 			<div class="text-center">
-                <button type="button" onclick="location.href='./productWrite.shop'" class="btn btn-primary p-4 py-3">
+                <button type="button" onclick="location.href='./product_admin_write.shop'" class="btn btn-primary p-4 py-3">
                     상품등록
                 </button>
             </div>

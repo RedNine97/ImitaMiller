@@ -1,5 +1,7 @@
 package com.imitamiller.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
@@ -11,16 +13,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.imitamiller.dto.ManagerDTO;
-import com.imitamiller.dto.MemberDTO;
 import com.imitamiller.dto.ProductDTO;
 import com.imitamiller.service.LoginService;
 import com.imitamiller.service.ProductService;
+import com.imitamiller.util.FileUtil;
 
 @Controller
 public class ManagerController {
@@ -31,6 +35,7 @@ public class ManagerController {
 	@Autowired
 	private LoginService loginService;
 	
+	//관리자 페이지 ---------------------------------------------------------------------------
 	@GetMapping("/adminpage.shop")
     public String checkAdminKey(HttpSession session, 
     											Model model) {
@@ -60,7 +65,7 @@ public class ManagerController {
         return admin_key_check;
     }
     
-    //상품정보 페이지 - 관리자
+    //상품정보 페이지 (관리자) -------------------------------------------------------------------------------------------------------------
   	@RequestMapping(value="product_admin_list.shop", method=RequestMethod.GET)
   	public ModelAndView getProduct_admin_list(@RequestParam(name = "pageNum", defaultValue = "1") String pageNum,
   															@RequestParam(name = "search", defaultValue = "") String search,
@@ -97,6 +102,7 @@ public class ManagerController {
   	    return mav;
   	}
   	
+  	//상품 수정 ---------------------------------------------------------------------------------
   	//상품 수정하기 pID 정보
   	@RequestMapping(value="product_admin_update.shop", method=RequestMethod.GET)
 	public String getProduct_admin_update(@RequestParam("pID") int pID, Model model) {
@@ -106,36 +112,163 @@ public class ManagerController {
 		return "/product_admin_update";
 	}
   	
-  //상품 수정하기 
-  	@RequestMapping(value="product_admin_update.shop", method=RequestMethod.POST)
-	public String getProduct_admin_updateproc(@ModelAttribute("ProductDTO") ProductDTO productDto,
-																	@RequestParam("repsizemgpath") String repsizemgpath,
-																	@RequestParam("reimgpath") String reimgpath, Model model) {
-	  	// 이미지가 수정 사항이 없을 시
-		if (productDto.getPsizemgpath() == null || productDto.getPsizemgpath() =="") {
-			productDto.setPsizemgpath(repsizemgpath);
-		}
-		if (productDto.getImgpath() == null || productDto.getImgpath() =="") {
-			productDto.setImgpath(reimgpath);
-		}
+  	// 상품 수정하기 POST
+  	@RequestMapping(value = "product_admin_update.shop", method = RequestMethod.POST)
+  	public String getProductAdminUpdateProc(@ModelAttribute("ProductDTO") ProductDTO productDto,
+														  	    @RequestParam("repsizemgpath") String repsizemgpath, 
+														  	    @RequestParam("reimgpath") String reimgpath,
+														  	    Model model) throws Exception {
+  		
+  	    // 도면 이미지 업로드 처리
+  	    if (!productDto.getPsizemgpathFile().isEmpty() ) {
+  	        try {
+  	            String newImgpath1 = FileUtil.rename(productDto.getPsizemgpathFile().getOriginalFilename());
+	        	productDto.setPsizemgpath("./img/sizepimg/"+newImgpath1);
+  	        } catch (Exception e) {
+  	            e.printStackTrace();
+  	        }
+  	    } else {
+	    	System.out.println("getPsizemgpathFile().isEmpty() ="+repsizemgpath);
+	        productDto.setPsizemgpath(repsizemgpath);
+	    }
 
+  	    // 상품 이미지 업로드 처리
+  	    if (!productDto.getImgpathFile().isEmpty()) {
+  	        try {
+  	        	String newImgpath2 = FileUtil.rename(productDto.getImgpathFile().getOriginalFilename());
+  	        	productDto.setImgpath("./img/pimg/"+newImgpath2);
+  	        } catch (Exception e) {
+  	            e.printStackTrace();
+  	        }
+  	    }else {
+	    	System.out.println("getImgpathFile().isEmpty() ="+reimgpath);
+	        productDto.setImgpath(reimgpath);
+	    }
 
-  		System.out.println("도면경로"+productDto.getPsizemgpath());
-  		System.out.println("이미지경로"+productDto.getImgpath());
-  		System.out.println("도면경로 repsizemgpath"+repsizemgpath);
-  		System.out.println("이미지경로 reimgpath"+reimgpath);
-  		
-  		boolean productUpdateCheck = productService.productUpdateProc(productDto);
-  		
-  		System.out.println("productUpdateCheck => "+productUpdateCheck);
-  		
-  		if(!productUpdateCheck) {// 수정이 실패하거나 null인 경우
-  			String errormessage ="상품 수정하기를 실패했습니다.";
-  			model.addAttribute("errormessage", errormessage);
-  			return "redirect:/error.shop";
-  		}
-  		
+  	    //db에 업데이트하기
+  	    boolean productUpdateCheck = productService.productUpdateProc(productDto);
+  	    System.out.println("productUpdateCheck => " + productUpdateCheck);
+
+  	    //도면 이미지 업로드 및 기존 파일 삭제 처리
+  	    if (!productDto.getPsizemgpathFile().isEmpty()) {
+  	        try {
+  	        	String psizemgpath = productDto.getPsizemgpath().replace("./img/sizepimg/", "");
+  	        	System.out.println("도면 이미지 업로드 및 기존 파일 삭제 처리 경로"+psizemgpath);
+  	            File file1 = new File(FileUtil.UPLOAD_PATH_JPG + "/" + psizemgpath);
+  	            productDto.getPsizemgpathFile().transferTo(file1);
+  	        } catch (IOException e) {
+  	            e.printStackTrace();
+  	        } catch (Exception e2) {
+  	            e2.printStackTrace();
+  	        }
+  	        if (productUpdateCheck) {//업로드했다면 -> 기존파일은 삭제하는 구문이 필요하다.
+  	            FileUtil.removeFileJPG(repsizemgpath.replace("./img/sizepimg/", ""));
+  	        } else {
+  	            String errorMessage = "상품 수정하기를 실패했습니다.";
+  	            model.addAttribute("errorMessage", errorMessage);
+  	            return "redirect:/error.shop";
+  	        }
+  	    }
+
+  	    // 상품 이미지 업로드 및 기존 파일 삭제 처리
+  	    if (!productDto.getImgpathFile().isEmpty()) {
+  	        try {
+  	        	String imgpath = productDto.getImgpath().replace("./img/pimg/", "");
+  	        	System.out.println("상품 이미지 업로드 및 기존 파일 삭제 처리 경로"+imgpath);
+  	            File file2 = new File(FileUtil.UPLOAD_PATH_PNG + "/" + imgpath);
+  	            productDto.getImgpathFile().transferTo(file2);
+  	        } catch (IOException e) {
+  	            e.printStackTrace();
+  	        } catch (Exception e2) {
+  	            e2.printStackTrace();
+  	        }
+  	        if (productUpdateCheck) {//업로드했다면 -> 기존파일은 삭제하는 구문이 필요하다.
+  	            FileUtil.removeFilePNG(reimgpath.replace("./img/pimg/", ""));
+  	        } else {
+  	            String errorMessage = "상품 수정하기를 실패했습니다.";
+  	            model.addAttribute("errorMessage", errorMessage);
+  	            return "redirect:/error.shop";
+  	        }
+  	    }
+
+  	    return "redirect:/product_admin_list.shop";
+  	}
+  	
+  	//상품 등록 -----------------------------------------------------------------------------
+  	@GetMapping("product_admin_write.shop")
+	public String getProduct_admin_write() {
+		return "/product_admin_write";
+	}
+  	
+  	@PostMapping("product_admin_write.shop")
+    public String postProductAdminWrite(@ModelAttribute("ProductDTO") ProductDTO productDTO,
+                                        					Model model) {//에러메세지 전달
+        try {
+            // 파일 업로드 처리 및 새 이름 부여
+            String psizemgpath = FileUtil.rename(productDTO.getPsizemgpathFile().getOriginalFilename());
+            String imgpath = FileUtil.rename(productDTO.getImgpathFile().getOriginalFilename());
+            
+            // ProductDTO에 업로드된 파일 경로 설정
+            productDTO.setPsizemgpath("./img/sizepimg/"+psizemgpath);
+            productDTO.setImgpath("./img/pimg/"+imgpath);
+
+            // 상품 등록 로직
+            boolean productInsertCheck = productService.ProductInsert(productDTO);
+            System.out.println("productInsertCheck => "+productInsertCheck);
+            if (!productInsertCheck) {
+                String errormessage = "상품 등록하기를 실패했습니다.";
+                model.addAttribute("errormessage", errormessage);
+                return "redirect:/error.shop";
+            }
+            
+          //실제로 업로드됐다면 upload폴더 업로드한 파일을 전송
+          File file1= new File(FileUtil.UPLOAD_PATH_JPG+"/"+psizemgpath);
+          File file2= new File(FileUtil.UPLOAD_PATH_PNG+"/"+imgpath);
+          //물리적으로 데이터 전송(복사)
+          productDTO.getPsizemgpathFile().transferTo(file1);//파일 업로드 위치로 전송
+          productDTO.getImgpathFile().transferTo(file2);//파일 업로드 위치로 전송
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errormessage = "파일 업로드 또는 상품 등록 중 오류가 발생했습니다.";
+            model.addAttribute("errormessage", errormessage);
+            return "redirect:/error.shop";
+        }
+
+        return "redirect:/product_admin_list.shop";
+    }
+  
+  //상품 삭제 -----------------------------------------------------------------------------
+  	@GetMapping("product_admin_delete.shop")
+	public String getProduct_admin_delete(@RequestParam("pID") int pID, Model model) {
+  		////삭제할 상품을 찾을 메서드
+  		ProductDTO productDto = productService.getProductUpdate(pID);
+  		model.addAttribute("productDto", productDto);
+		return "/product_admin_delete";
+	}
+  	
+  	@RequestMapping(value="/product_admin_delete.shop",method=RequestMethod.POST)
+	public String postProduct_admin_delete(@ModelAttribute("ProductDTO") ProductDTO productDTO) throws Exception {
+  		System.out.println("productDTO.getPsizemgpath() www"+productDTO.getPsizemgpath());
+  		String psizemgpath = productDTO.getPsizemgpath();
+  		String imgpath = productDTO.getImgpath();
+  		//db데이터 삭제
+  		boolean productDeleteCheck = productService.getProductDelete(productDTO.getpID());
+  		System.out.println("productDeleteCheck"+productDeleteCheck);
+  		//업로드한 파일까지 삭제 (흔적 지우기)
+			FileUtil.removeFileJPG(psizemgpath.replace("./img/sizepimg/", ""));
+			FileUtil.removeFilePNG(imgpath.replace("./img/pimg/", ""));
+			System.out.println("productDTO.getPsizemgpath() www"+productDTO.getPsizemgpath());
 		return "redirect:/product_admin_list.shop";
 	}
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
   	
 }

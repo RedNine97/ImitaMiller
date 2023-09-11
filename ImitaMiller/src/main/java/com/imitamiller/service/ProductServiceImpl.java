@@ -126,5 +126,17 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		return productDAO.productUpdateProc(product);
 	}
+
+	@Override
+	public boolean ProductInsert(ProductDTO product) {
+		// TODO Auto-generated method stub
+		return productDAO.ProductInsert(product);
+	}
+
+	@Override
+	public boolean getProductDelete(int pID) {
+		// TODO Auto-generated method stub
+		return productDAO.getProductDelete(pID);
+	}
 	
 }

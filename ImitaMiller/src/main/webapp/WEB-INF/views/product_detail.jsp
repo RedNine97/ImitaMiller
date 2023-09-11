@@ -30,7 +30,7 @@
         <div class="row d-flex flex-column flex-md-row">
             <!-- 상품 이미지 -->
             <div class="col col-lg-6">
-                <img src="${productList.imgpath}.jpg" class="img-fluid" alt="img">
+                <img src="${productList.imgpath}" class="img-fluid" alt="img">
             </div>
             <!-- 상품 내용 -->
             <div class="col col-lg-6 ps-5">
@@ -76,7 +76,7 @@
 			               class="d-block overflow-hidden position-relative my-custom-link-style">
 			                <div class="card h-100">
 			                    <!-- 상품 이미지-->
-			                    <img class="card-img-top img-fluid" src="${dp.imgpath}.jpg" style="object-fit: contain; height: 100%;" />
+			                    <img class="card-img-top img-fluid" src="${dp.imgpath}" style="object-fit: contain; height: 100%;" />
 			                    <!-- 상품 내용-->
 			                    <div class="card-body p-0">
 			                        <div class="text-start ms-2 ps-0 d-flex flex-column justify-content-between" style="height: 100%;">
@@ -98,7 +98,7 @@
 			<!-- 사이즈 이미지 -->
             <div class="text-center py-6">
                 <h1 class="nanum display-6 border-top border-2 border-dark py-5 ">SIZE</h1>
-                <img src="${productList.psizemgpath}.png" class="img-fluid" alt="img">
+                <img src="${productList.psizemgpath}" class="img-fluid" alt="img">
             </div>
             <!-- 교환/반품 안내 -->
             <div class="py-6">

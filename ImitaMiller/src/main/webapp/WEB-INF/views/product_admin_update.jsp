@@ -27,10 +27,8 @@
           <div class="text-center">
             <h1 class="h4 mb-4 pb-5">상품 수정하기</h1>
           </div>
-          <form name="ProductAdminUpdate" method="POST" action="product_admin_update.shop">
+          <form name="ProductAdminUpdate" method="post" action="product_admin_update.shop" enctype="multipart/form-data">
           	<input type="hidden" name="pID" id="pIdUpdate" value="${productDto.pID}">
-          	<input type="hidden" name="repsizemgpath" value="${productDto.psizemgpath}">
-          	<input type="hidden" name="reimgpath" value="${productDto.imgpath}">
             <div class="card pb-4">
               <div class="card-body">
                 <div class="form-group row m-0">
@@ -105,22 +103,25 @@
                     <h6 class="pt-4 mt-2 font-weight-bold">도면 경로</h6>
                   </div>
                   <div class="col-sm-9 ps-0 py-4">
-                    <label for="fileInput">확장자를 .png를 사용하세요.</label>
-                    <input type="file" id="fileInputUpdate1" name="psizemgpath"
+                    <label for="fileInput">권장 사진 크기 : 800 X 700</label>
+                    <input type="file" id="fileInputUpdate1" name="psizemgpathFile"
                       class="col-sm-9 register-input form-control form-control-user mt-3 rounded-start rounded-4">
+						<input type="hidden" name="repsizemgpath" value="${productDto.psizemgpath}" readonly>
                   </div>
-                  <img src="${productDto.psizemgpath}.png" id="imagePreviewUpdate1" alt="이미지 미리보기" class="mt-3">
+                  <img src="${productDto.psizemgpath}" id="imagePreviewUpdate1" alt="이미지 미리보기" class="mt-3">
                 </div>
+                
                 <div class="form-group row m-0 pt-5 border-top">
                   <div class="col-sm-3 mb-sm-0">
                     <h6 class="pt-4 mt-2 font-weight-bold">이미지 경로</h6>
                   </div>
                   <div class="col-sm-9 ps-0 py-3">
-                    <label for="fileInput">확장자를 .jpg를 사용하세요.</label>
-                    <input type="file" id="fileInputUpdate2" name="imgpath"
+                    <label for="fileInput">권장 사진 크기 : 600 X 600</label>
+                    <input type="file" id="fileInputUpdate2" name="imgpathFile"
                       class="col-sm-9 register-input form-control form-control-user mt-3 rounded-start rounded-4">
+						<input type="hidden" name="reimgpath" value="${productDto.imgpath}" readonly>
                   </div>
-                  <img src="${productDto.imgpath}.jpg" id="imagePreviewUpdate2" alt="이미지 미리보기" class="mt-3">
+                  <img src="${productDto.imgpath}" id="imagePreviewUpdate2" alt="이미지 미리보기" class="mt-3">
                 </div>
               </div>
               <div class="row d-flex justify-content-center">
@@ -138,6 +139,10 @@
     </div>
   </div>
   </div>
+  <script>
+    setupImagePreview('fileInputUpdate1', 'imagePreviewUpdate1');
+ 	setupImagePreview('fileInputUpdate2', 'imagePreviewUpdate2');
+  </script>
   <script src="js/product.js"></script>
 </body>
 

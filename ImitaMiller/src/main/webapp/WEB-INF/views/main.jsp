@@ -80,7 +80,7 @@
 	                                <!-- 배지 -->
 	                                <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Best</div>
 	                                <!-- 상품 이미지-->
-	                                <img class="card-img-top" src="${b.imgpath}.jpg" alt="..." />
+	                                <img class="card-img-top" src="${b.imgpath}" alt="..." />
 	                                <!-- 상품 내용-->
 	                                <div class="card-body p-4">
 	                                    <div class="text-center">
@@ -144,7 +144,7 @@
                         	<c:forEach var="l1" items="${list1}">
 	                            <div class="col card">
 	                                <!-- 상품 이미지-->
-	                                <a class="" href="./product_detail.shop?pID=${l1.pID}"><img class="card-img-top" src="${l1.imgpath}.jpg" alt="..." /></a>
+	                                <a class="" href="./product_detail.shop?pID=${l1.pID}"><img class="card-img-top" src="${l1.imgpath}" alt="..." /></a>
 	                                <!-- 상품 내용-->
 	                                <div class="card-body p-2">
 	                                    <div class="text-left">
@@ -192,7 +192,7 @@
 								<div class="col card">
 									<!-- 상품 이미지-->
 									<a class="" href="./product_detail.shop?pID=${l2.pID}"><img
-										class="card-img-top" src="${l2.imgpath}.jpg" alt="..." /></a>
+										class="card-img-top" src="${l2.imgpath}" alt="..." /></a>
 									<!-- 상품 내용-->
 									<div class="card-body p-2">
 										<div class="text-left">
@@ -241,7 +241,7 @@
 									<div class="col card">
 										<!-- 상품 이미지-->
 										<a class="" href="./product_detail.shop?pID=${l3.pID}"><img
-											class="card-img-top" src="${l3.imgpath}.jpg" alt="..." /></a>
+											class="card-img-top" src="${l3.imgpath}" alt="..." /></a>
 										<!-- 상품 내용-->
 										<div class="card-body p-2">
 											<div class="text-left">
@@ -306,7 +306,7 @@
 								<div class="col card">
 									<!-- 상품 이미지-->
 									<a class="" href="./product_detail.shop?pID=${l4.pID}"><img
-										class="card-img-top" src="${l4.imgpath}.jpg" alt="..." /></a>
+										class="card-img-top" src="${l4.imgpath}" alt="..." /></a>
 									<!-- 상품 내용-->
 									<div class="card-body p-2">
 										<div class="text-left">
@@ -355,7 +355,7 @@
 								<div class="col card">
 									<!-- 상품 이미지-->
 									<a class="" href="./product_detail.shop?pID=${l5.pID}"><img
-										class="card-img-top" src="${l5.imgpath}.jpg" alt="..." /></a>
+										class="card-img-top" src="${l5.imgpath}" alt="..." /></a>
 									<!-- 상품 내용-->
 									<div class="card-body p-2">
 										<div class="text-left">
@@ -404,7 +404,7 @@
 								<div class="col card">
 									<!-- 상품 이미지-->
 									<a class="" href="./product_detail.shop?pID=${l6.pID}"><img
-										class="card-img-top" src="${l6.imgpath}.jpg" alt="..." /></a>
+										class="card-img-top" src="${l6.imgpath}" alt="..." /></a>
 									<!-- 상품 내용-->
 									<div class="card-body p-2">
 										<div class="text-left">

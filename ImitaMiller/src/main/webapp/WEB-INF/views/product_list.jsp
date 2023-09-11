@@ -75,7 +75,7 @@
 							<a href="./product_detail.shop?pID=${p.pID}&pageNum=${pgList.currentPage}" class="d-block overflow-hidden position-relative my-custom-link-style">
 								<div class="card h-100">
 									<!-- 상품 이미지-->
-									<img class="card-img-top" src="${p.imgpath}.jpg" />
+									<img class="card-img-top" src="${p.imgpath}" />
 									<!-- 상품 내용-->
 									<div class="card-body p-4">
 										<div class="text-start">

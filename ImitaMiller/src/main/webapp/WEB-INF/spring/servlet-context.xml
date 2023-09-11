@@ -4,10 +4,11 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 <context:component-scan base-package="com.imitamiller.controller" />
+<context:component-scan base-package="com.imitamiller.util" />
 
 <!-- viewResolver(위치)prefix ,이동할 페이지의 확장자를 지정(suffix) -->
 <bean id="viewResolver"
@@ -16,6 +17,17 @@
       <property name="prefix" value="/WEB-INF/views/" />
       <property name="suffix" value=".jsp" />
  </bean>
+ 
+ <!--   작성시 byte단위로 작성해야한다.
+    파일 업로드 50MB -> 51,200kb -> 52,428,800byte
+    			  CommonsMultipartResolver -> 업로드 관여하는 클래스 => 빈즈로 등록(모델2 X)
+    			  maxUploadSize(최대 업로드 크기를 지정)
+    			  defaultEncoding(한글처리 부분설정)
+    -->
+ <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="maxUploadSize" value="52428800" />
+    <property name="defaultEncoding" value="utf-8" />
+</bean>
  
 <mvc:annotation-driven />
 

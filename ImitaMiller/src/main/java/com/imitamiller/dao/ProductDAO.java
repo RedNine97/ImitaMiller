@@ -18,4 +18,6 @@ public interface ProductDAO {
 	ProductDTO getProductDetail(int pID);
 	ProductDTO getProductUpdate(int pID);
 	boolean productUpdateProc(ProductDTO product);
+	boolean ProductInsert(ProductDTO product);
+	boolean getProductDelete(int pID);
 }

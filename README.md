@@ -6,7 +6,7 @@ Spring MVC로 구현한 쇼핑몰 사이트 제작
 쇼핑몰만 한 게 없다고 판단이 되어 주제를 가구 쇼핑몰로 선정했습니다.<br>
 
 #### 🧙진행 기간
-* 23.8.14 -
+* 23.8.14 - <br>
 **인원** : 1명
 
 ### ⚙️ 개발 환경
@@ -33,6 +33,7 @@ Spring MVC로 구현한 쇼핑몰 사이트 제작
 [회원가입](https://velog.io/@ghdrn221/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)<br>
 [마이페이지](https://velog.io/@ghdrn221/%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80)<br>
 [아이디, 비밀번호 찾기](https://velog.io/@ghdrn221/%EC%95%84%EC%9D%B4%EB%94%94-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%B0%BE%EA%B8%B0)<br>
+[관리자(상품수정까지)](https://velog.io/@ghdrn221/%EA%B4%80%EB%A6%AC%EC%9E%90)<br>
 
 ## 💡 이전 프로젝트
 [모델2로 구현한 프로젝트 밸로그 링크](https://velog.io/@ghdrn221/series/%EB%AA%A8%EB%8D%B82%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)<br>

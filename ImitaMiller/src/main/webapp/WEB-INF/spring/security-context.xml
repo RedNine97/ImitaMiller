@@ -21,7 +21,9 @@
         <security:intercept-url pattern="/login.shop" access="permitAll" />
         <security:intercept-url pattern="/logout.shop" access="permitAll" />
         
-        
+        <!-- ROLE_ADMIN 권한이 필요한 URL 설정 -->
+		<!-- 예: access="hasRole('ROLE_ADMIN')" -->  
+		      
         <!-- 예: /public/** 경로에 대한 설정 -->
    	 	<security:intercept-url pattern="/public/**" access="permitAll" />
         

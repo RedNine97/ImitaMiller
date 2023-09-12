@@ -60,8 +60,6 @@
 	<!-- footer.jsp-->
 	<jsp:include page="footer.jsp" flush="false" />
 
-	<!-- feedback.jsp-->
-	<jsp:include page="feedback.jsp" flush="false" />
 	<script src="js/scripts.js"></script>
 </body>
 

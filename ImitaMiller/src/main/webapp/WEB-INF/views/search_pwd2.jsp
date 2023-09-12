@@ -13,6 +13,8 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+   		<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 </head>
 <body class="bg-gradient-primary">
 
@@ -34,6 +36,7 @@
                                         <h1 class="h4 mb-4">비밀번호 찾기</h1>
                                     </div>
                                     <form class="user" name="SearchPwd2" id="SearchPwd2" method="post" action="search_pwd_update.shop">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         <!-- DB의 memid, email 값 저장 -->
 							            <input type="hidden" name="memidDb" id="memidDb" value="${searchDto.id}">
 							            <input type="hidden" name="memnameDb" id="memnameDb" value="${searchDto.memname}">

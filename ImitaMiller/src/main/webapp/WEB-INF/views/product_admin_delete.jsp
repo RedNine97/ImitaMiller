@@ -28,6 +28,7 @@
             <h1 class="h4 mb-4 pb-5">이 상품을 삭제하시겠습니까?</h1>
           </div>
           <form name="product_delete"  method="post"  action="product_admin_delete.shop">
+          	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <div class="card pb-4">
               <div class="card-body">
                 <div class="form-group row m-0">

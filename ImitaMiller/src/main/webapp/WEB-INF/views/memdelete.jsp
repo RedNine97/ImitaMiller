@@ -30,6 +30,7 @@
                         <h1 class="h4 mb-4 pb-5">회원 탈퇴</h1>
                     </div>
                     <form name="memdelete" method="POST" action="memberdelete.shop" class="user">
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                       <div class="m-5 p-2">
                         <div class="row">
                             <div class="col-sm-12">
@@ -63,8 +64,6 @@
 	<!-- footer.jsp-->
 	<jsp:include page="footer.jsp" flush="false" />
 
-	<!-- feedback.jsp-->
-	<jsp:include page="feedback.jsp" flush="false" />
 	<script src="js/scripts.js"></script>
 </body>
 

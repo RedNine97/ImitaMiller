@@ -1,7 +1,13 @@
 //
 // meminfo 에러방지 분리
 // 회원정보 ---------------------------------------
-
+$(document).ready(function(){
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+});
 document.addEventListener("DOMContentLoaded", function () {
 	var isDuplicateChecked = false; // 초기에 중복 체크를 수행하지 않은 상태로 설정
 	var mem_idValue = ""; // 중복 체크를 통해 확인한 mem_id 값을 저장
@@ -134,6 +140,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+function dongCheck() {
+	if (document.zipForm.area3.value == "") {
+		alert("동이름을 입력하세요");
+		document.zipForm.area3.focus();
+		return;
+	}
+	document.zipForm.submit();//U_ZipCheck.jsp  
+}
+
+function sendAddress(zipcode, area1, area2, area3, area4) {
+	var addr = area1 + " " + area2 + " " + area3 + " " + area4;
+	opener.document.memupdate.zipcode.value = zipcode;
+	opener.document.memupdate.addr.value = addr;
+	self.close();
+}
+
+// 우편번호창을 열 수 있도록 함수호출 
+function zipCheck() {
+	url = "zipcheck.shop";
+	window.open(url, "post", "toolbar=no,width=500,height=400,left=900,top=100,directories=no,status=yes,scrollbars=yes,menubar=no");
+}
 
 //이메일
 // 현재 날짜 구하기 -> 미래는 선택 X

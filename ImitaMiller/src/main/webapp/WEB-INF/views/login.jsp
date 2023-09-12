@@ -35,6 +35,7 @@
 									<!-- 로그인 폼 -->
 									<form name="login" method="POST" class="user"
 										action="login.shop">
+										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user"
 												id="inputID" name="inputID" placeholder="아이디를 입력해주세요.">
@@ -59,8 +60,7 @@
 										<a class="small btn-login" href="./search_pwd1.shop">비밀번호 찾기</a>
 									</div>
 									<div class="text-center pt-3">
-										<a class="text-dark no-underline" href="./main.shop">로그인하러
-											가기</a>
+										<a class="text-dark no-underline" href="./main.shop">메인페이지 가기</a>
 									</div>
 								</div>
 							</div>

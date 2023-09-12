@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,8 @@ import com.imitamiller.util.FileUtil;
 
 @Controller
 public class ManagerController {
+	
+	private Logger log=Logger.getLogger(this.getClass());//로그객체 생성 구문
 	
 	@Autowired
 	private ProductService productService;
@@ -71,24 +74,16 @@ public class ManagerController {
   															@RequestParam(name = "search", defaultValue = "") String search,
   															@RequestParam(name = "searchtext", defaultValue = "") String searchtext,
   															@RequestParam(name = "sort", defaultValue = "PID DESC") String sort){// 정렬 파라미터 추가
-  		System.out.println("ProductList의 pageNum 확인 "+pageNum);
-  		System.out.println("ProductList의 search 확인 "+search);
-  		System.out.println("ProductList의 searchtext 확인 "+searchtext);
-  		System.out.println("ProductList의 sort 확인 " + sort); // 정렬 파라미터 확인
   		
   		int count=0;//총레코드수
   		List productList=null;//화면에 출력할 레코드를 저장할 변수
   		 
   		count=productService.getProductSearchCount(search, searchtext);
   		
-  		System.out.println("현재 레코드수(count)=>"+count);
-  		
   		//1.화면에 출력할 페이지번호, 2.출력할 레코드 갯수
   		Hashtable<String,Integer> pgList=productService.pageList(pageNum, count);
   		 if (count > 0){
-  			 System.out.println(pgList.get("startRow")+","+pgList.get("endRow"));
   			 productList=productService.getProductList(pgList.get("startRow"),pgList.get("pageSize"),search,searchtext,sort);
-  			 System.out.println("ProductController의 productList=>"+productList);
   		 }else {
   			 productList=Collections.EMPTY_LIST;
   		 }
@@ -128,7 +123,6 @@ public class ManagerController {
   	            e.printStackTrace();
   	        }
   	    } else {
-	    	System.out.println("getPsizemgpathFile().isEmpty() ="+repsizemgpath);
 	        productDto.setPsizemgpath(repsizemgpath);
 	    }
 
@@ -141,13 +135,11 @@ public class ManagerController {
   	            e.printStackTrace();
   	        }
   	    }else {
-	    	System.out.println("getImgpathFile().isEmpty() ="+reimgpath);
 	        productDto.setImgpath(reimgpath);
 	    }
 
   	    //db에 업데이트하기
   	    boolean productUpdateCheck = productService.productUpdateProc(productDto);
-  	    System.out.println("productUpdateCheck => " + productUpdateCheck);
 
   	    //도면 이미지 업로드 및 기존 파일 삭제 처리
   	    if (!productDto.getPsizemgpathFile().isEmpty()) {
@@ -174,7 +166,6 @@ public class ManagerController {
   	    if (!productDto.getImgpathFile().isEmpty()) {
   	        try {
   	        	String imgpath = productDto.getImgpath().replace("./img/pimg/", "");
-  	        	System.out.println("상품 이미지 업로드 및 기존 파일 삭제 처리 경로"+imgpath);
   	            File file2 = new File(FileUtil.UPLOAD_PATH_PNG + "/" + imgpath);
   	            productDto.getImgpathFile().transferTo(file2);
   	        } catch (IOException e) {
@@ -203,6 +194,10 @@ public class ManagerController {
   	@PostMapping("product_admin_write.shop")
     public String postProductAdminWrite(@ModelAttribute("ProductDTO") ProductDTO productDTO,
                                         					Model model) {//에러메세지 전달
+  		if (log.isDebugEnabled()) {// 로그객체가 작동중이라면(디버그상태)
+			log.debug("productDTO =>" + productDTO);
+			//log.debug("productDTO.getPsizemgpathFile() =>" + productDTO.getPsizemgpathFile().getOriginalFilename());
+		}
         try {
             // 파일 업로드 처리 및 새 이름 부여
             String psizemgpath = FileUtil.rename(productDTO.getPsizemgpathFile().getOriginalFilename());
@@ -214,7 +209,6 @@ public class ManagerController {
 
             // 상품 등록 로직
             boolean productInsertCheck = productService.ProductInsert(productDTO);
-            System.out.println("productInsertCheck => "+productInsertCheck);
             if (!productInsertCheck) {
                 String errormessage = "상품 등록하기를 실패했습니다.";
                 model.addAttribute("errormessage", errormessage);
@@ -248,16 +242,13 @@ public class ManagerController {
   	
   	@RequestMapping(value="/product_admin_delete.shop",method=RequestMethod.POST)
 	public String postProduct_admin_delete(@ModelAttribute("ProductDTO") ProductDTO productDTO) throws Exception {
-  		System.out.println("productDTO.getPsizemgpath() www"+productDTO.getPsizemgpath());
   		String psizemgpath = productDTO.getPsizemgpath();
   		String imgpath = productDTO.getImgpath();
   		//db데이터 삭제
   		boolean productDeleteCheck = productService.getProductDelete(productDTO.getpID());
-  		System.out.println("productDeleteCheck"+productDeleteCheck);
   		//업로드한 파일까지 삭제 (흔적 지우기)
 			FileUtil.removeFileJPG(psizemgpath.replace("./img/sizepimg/", ""));
 			FileUtil.removeFilePNG(imgpath.replace("./img/pimg/", ""));
-			System.out.println("productDTO.getPsizemgpath() www"+productDTO.getPsizemgpath());
 		return "redirect:/product_admin_list.shop";
 	}
   	

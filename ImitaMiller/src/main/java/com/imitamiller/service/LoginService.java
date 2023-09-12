@@ -10,7 +10,7 @@ import com.imitamiller.dto.ZipcodeDTO;
 
 public interface LoginService {
 	
-	LoginDTO loginCheck(String id, String pwd);
+	LoginDTO loginCheck(String id);
 	boolean checkId(String id);
 	ArrayList<ZipcodeDTO> zipcodeRead(String area3);
 	boolean memberInsert(MemberDTO registerDTO, LoginDTO loginDTO);
@@ -20,5 +20,5 @@ public interface LoginService {
 	ArrayList<SearchDTO> getSearchId(String memname, String email);
 	SearchDTO searchPwd(String id);
 	boolean pwdSearchUpdate(String id, String pwd);
-	ManagerDTO managerCheck(String id, String pwd);
+	ManagerDTO managerCheck(String id);
 }

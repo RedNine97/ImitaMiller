@@ -27,7 +27,8 @@
           <div class="text-center">
             <h1 class="h4 mb-4 pb-5">상품 수정하기</h1>
           </div>
-          <form name="ProductAdminUpdate" method="post" action="product_admin_update.shop" enctype="multipart/form-data">
+          <form name="ProductAdminUpdate" method="post" action="product_admin_update.shop?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
+          	<sec:csrfInput/>
           	<input type="hidden" name="pID" id="pIdUpdate" value="${productDto.pID}">
             <div class="card pb-4">
               <div class="card-body">

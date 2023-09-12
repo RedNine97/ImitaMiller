@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;//import 구문을 통해서 불러온다. -> Log4j.xml
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,14 +29,25 @@ import com.imitamiller.service.LoginService;
 @Controller
 public class LoginController {
 	
+	private Logger log=Logger.getLogger(this.getClass());//로그객체 생성 구문
 	@Autowired
 	private LoginService loginService;
 	
+	private CsrfTokenRepository csrfTokenRepository;
+
+    // 생성자를 통해 CsrfTokenRepository 주입
+    public LoginController(CsrfTokenRepository csrfTokenRepository) {
+        this.csrfTokenRepository = csrfTokenRepository;
+    }
+    
+    @Autowired
+    BCryptPasswordEncoder cryptEncoder;
+	
 	//로그인 ---------------------------------------------------------------------------------------
-	@GetMapping("login.shop")
-	public String getlogin() {
-		return "/login";
-	}
+    @GetMapping("login.shop")
+    public String getlogin() {
+        return "/login";
+    }
 	
 	//로그아웃
 	@GetMapping("logout.shop")
@@ -52,26 +66,48 @@ public class LoginController {
 	public String postLogin(@RequestParam("inputID") String id, 
 									  @RequestParam("inputPassword") String pwd,
 							           HttpSession session) throws Exception {	
+		
+		//String pwdCrypt =cryptEncoder.encode(pwd);
+		// 실시간 ? -> System.out.print(X)
+		if (log.isDebugEnabled()) {// 로그객체가 작동중이라면(디버그상태)
+			log.debug("id =>" + id);// System.out.println("id=>"+id);
+			log.debug("pwd =>" + pwd);
+			//log.debug("pwdCrypt =>" + pwdCrypt);
+			//log.debug("cryptEncoder.matches(pwd, pwdCrypt) =>" + cryptEncoder.matches(pwd, pwdCrypt));
+		}
+		
 		//일반회원인지 확인
-		LoginDTO loginCheck = loginService.loginCheck(id, pwd);
+		LoginDTO loginCheck = loginService.loginCheck(id);
 		//관리자인지 확인
-		ManagerDTO managerCheck = loginService.managerCheck(id, pwd);
+		ManagerDTO managerCheck = loginService.managerCheck(id);
 		
-		if (loginCheck == null && managerCheck == null) {
-		System.out.println("getLogin loginCheck 결과 로그인 실패 다시 로그인");
-		return "redirect:/login.shop";
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		log.debug("loginCheck pwd =>" + (loginCheck != null ? loginCheck.getPwd() : "null"));
+		log.debug("managerCheck pwd =>" + (managerCheck != null ? managerCheck.getPwd() : "null"));
+		
+		// loginCheck 또는 managerCheck 중 하나라도 정보가 존재해야 진행
+		if (loginCheck != null || managerCheck != null) {
+		    // 둘 중 하나라도 비밀번호가 일치하면 세션에 정보 담기
+		    if ((loginCheck != null && encoder.matches(pwd, loginCheck.getPwd())) ||
+		        (managerCheck != null && encoder.matches(pwd, managerCheck.getPwd()))) {
+		        if (managerCheck != null) {
+		            session.setAttribute("managerCheck", managerCheck);
+		        }
+		        if (loginCheck != null) {
+		        	log.debug("encoder.matches(pwd, loginCheck.getPwd()) =>" + encoder.matches(pwd, loginCheck.getPwd()));
+		            session.setAttribute("loginCheck", loginCheck);
+		        }
+		    } else {
+		        log.debug("loginCheck, managerCheck 모두 로그인 실패");
+		        return "redirect:/login.shop";
+		    }
+		} else {
+		    // loginCheck와 managerCheck 모두 null인 경우에 대한 처리를 추가
+		    log.debug("일반 회원과 관리자 정보가 없습니다.");
+		    return "redirect:/login.shop";
 		}
-		
-		//관리자라면 관리자 정보 세션에 담기
-		if (managerCheck != null) {
-			session.setAttribute("managerCheck", managerCheck);
-		}else {
-			//일반회원이라면 로그인 정보 세션에 담기
-		    session.setAttribute("loginCheck", loginCheck);
-		}
-		
-	    System.out.println("getLogin loginCheck 결과 로그인 성공 후 메인페이지");
-	    return "redirect:/main.shop";
+
+		return "redirect:/main.shop";
 	}
 	
 	//회원가입 -------------------------------------------------------------------------------------------
@@ -91,6 +127,8 @@ public class LoginController {
 												@ModelAttribute("LoginDTO") LoginDTO loginDTO,
 												@RequestParam("number") String number) throws Exception {	
 		
+		String pwdCrypt =cryptEncoder.encode(loginDTO.getPwd());
+		loginDTO.setPwd(pwdCrypt);
 		// 여기에서 memberDTO와 loginDTO 객체를 사용하여 회원 가입 로직을 수행한다.
 	    // memberDTO에는 요청 파라미터에서 자동으로 필드에 매핑된 데이터가 들어 있다.
 	    // loginDTO에도 요청 파라미터에서 자동으로 필드에 매핑된 데이터가 들어 있다.
@@ -195,8 +233,8 @@ public class LoginController {
 	@PostMapping("search_pwd_updateproc.shop")
 	public String postSearch_pwd_updateproc(@RequestParam("id") String id,
 																	@RequestParam("pwd") String pwd) {
-		
-		boolean pwdUpdateCheck = loginService.pwdSearchUpdate(id, pwd);
+		String pwdCrypt =cryptEncoder.encode(pwd);
+		boolean pwdUpdateCheck = loginService.pwdSearchUpdate(id, pwdCrypt);
 		
 		if (pwdUpdateCheck == false) {
 			System.out.println("pwdUpdateCheck가 실패 => "+pwdUpdateCheck);

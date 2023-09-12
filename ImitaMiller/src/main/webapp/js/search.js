@@ -2,7 +2,13 @@
 * search.js
 *  검색기능에 관한 자바스크립트
 */
-
+$(document).ready(function(){
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+});
 	//아이디 찾기페이지
 	function IdSearchCheck() {
 		var memname =document.getElementById("memname_search");

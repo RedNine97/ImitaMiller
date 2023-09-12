@@ -30,11 +30,9 @@ public class HomeController {
 		// 로그인 상태
 		LoginDTO loginCheck = (LoginDTO) session.getAttribute("loginCheck");
 		ManagerDTO managerCheck = (ManagerDTO) session.getAttribute("managerCheck");
-		System.out.println("loginCheck => "+loginCheck);
 		
 		//베스트 상품
 		List<ProductDTO> differentProduct=productService.getRecommendProduct(1, 9);//추천 상품
-		System.out.println("main의 베스트 상품 "+differentProduct);
 		
 		//메인 상품
 		//ptype="오피스의자"
@@ -72,9 +70,6 @@ public class HomeController {
 		mav.addObject("list4",bedroom);
 		mav.addObject("list5",library1);
 		mav.addObject("list6",library2);
-		
-		System.out.println("main의 loginDTO "+loginCheck);
-		System.out.println("main의 login_id "+login_id);
 		
 		return mav;
 	}

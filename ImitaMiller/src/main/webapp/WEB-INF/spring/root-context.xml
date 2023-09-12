@@ -7,10 +7,10 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-<!-- <context:annotation-config /> -->
-<context:component-scan base-package="com.imitamiller.service" />
-<context:component-scan base-package="com.imitamiller.dao" />
-<!--DB연결(dataSource) driver, url, username, password지정(DB연결 구성요소) -->
+	<!-- <context:annotation-config /> -->
+	<context:component-scan base-package="com.imitamiller.service" />
+	<context:component-scan base-package="com.imitamiller.dao" />
+	<!--DB연결(dataSource) driver, url, username, password지정(DB연결 구성요소) -->
 	<bean id="dataSource" 
 	   class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	   <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />

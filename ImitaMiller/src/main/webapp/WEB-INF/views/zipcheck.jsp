@@ -8,12 +8,15 @@
 <!-- Core theme CSS (includes Bootstrap)-->
 <link href="css/styles.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 </head>
 <body class="bg-gradient-primary">
     <div class="container justify-content-center">
         <div class="bg-white text-center py-5 my-5 border-0 shadow-lg">
             <h2 class="font-weight-bold">우편번호 찾기</h2>
             <form name="zipForm" action="zipcheck.shop" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <br>
                 <div class="form-group row justify-content-center">
                     <label for="area3" class="col-sm-3 col-form-label text-right px-0">동이름 입력 :</label>
@@ -48,7 +51,6 @@
                             <c:set var="tempArea2" value="${zipcode.getArea2().trim()}"/>
                             <c:set var="tempArea3" value="${zipcode.getArea3().trim()}"/>
                             <c:set var="tempArea4" value="${zipcode.getArea4().trim()}"/>
-
                             <a href="JavaScript:sendAddress('${tempZipcode}','${tempArea1}','${tempArea2}','${tempArea3}','${tempArea4}')"
                                 class="font-mono text-decoration-none text-dark">
                                 ${tempZipcode}&nbsp;${tempArea1}&nbsp;${tempArea2}&nbsp;${tempArea3}&nbsp;${tempArea4}
@@ -67,7 +69,7 @@
             </div>
         </div>
     </div>
-    <script src="js/scripts.js"></script>
+    <script src="js/register.js"></script>
     <script src="js/bootstrap.min.js"></script>
  </body>
  </html>

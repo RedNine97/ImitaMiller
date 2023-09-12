@@ -11,7 +11,8 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-        
+        <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+   		<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 </head>
 <body class="bg-gradient-primary">
 	    
@@ -33,6 +34,7 @@
                                         <h1 class="h4 mb-4">아이디 찾기</h1>
                                     </div>
                                     <form class="user" name="SearchId" method="post" action="search_idproc.shop">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         <!-- 성명 -->
                                         <div class="form-group row border-top">
                                             <div class="col-sm-3 mb-3 mb-sm-0">

@@ -33,8 +33,6 @@ public class LoginDAOImpl implements LoginDAO {
 	@Override
 	public void setDs(DataSource ds) {
 		this.ds=ds;
-		System.out.println("ds => "+ds);
-		System.out.println("setDs()호출되서 DB연결됨(ds)");
 	}
 	
 	private void close(AutoCloseable... objs) {
@@ -77,7 +75,7 @@ public class LoginDAOImpl implements LoginDAO {
 	
 	//비지니스메서드 구현
 	//1.회원인지를 체크해주는 메서드(인증)
-	public LoginDTO loginCheck(String id, String pwd){
+	public LoginDTO loginCheck(String id){
 		LoginDTO loginDto=null;
 		
 		try {
@@ -85,11 +83,9 @@ public class LoginDAOImpl implements LoginDAO {
 			con = ds.getConnection();
 			//con.setAutoCommit(false);//시작점
 
-			String sql = "select * from memlogin " + 
-							  "where id = ? and pwd = ?";
+			String sql = "select * from memlogin where id = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
-			pstmt.setString(2, pwd);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				//사용자가 일치하는 데이터를 찾았으므로 로그인 성공
@@ -126,8 +122,6 @@ public class LoginDAOImpl implements LoginDAO {
 	        rs = pstmt.executeQuery();
 	        managerCheck = rs.next(); // manager 테이블에서 중복이면 true
 
-	        System.out.println("memlogin 테이블 중복 체크 결과: " + memLoginCheck);
-	        System.out.println("manager 테이블 중복 체크 결과: " + managerCheck);
 	    } catch (Exception ex) {
 	        System.out.println("checkId() 에러:");
 	        System.out.println("에러 라인 127:");
@@ -207,7 +201,6 @@ public class LoginDAOImpl implements LoginDAO {
 	        pstmt.setString(8, registerDTO.getZipcode());
 
 	        int insertedRows = pstmt.executeUpdate();
-	        System.out.println("member 테이블" + insertedRows);
 
 	        if (insertedRows > 0) {
 	            // 3. 회원 정보가 제대로 삽입되었다면 login_id에 mem_id를 삽입하는 쿼리 실행
@@ -218,7 +211,6 @@ public class LoginDAOImpl implements LoginDAO {
 	            pstmt.setString(3, loginDTO.getPwd());
 
 	            int loginInsertedRows = pstmt.executeUpdate();
-	            System.out.println("memlogin 테이블" + loginInsertedRows);
 
 	            if (loginInsertedRows > 0) {
 	                check = true; // 회원가입 성공
@@ -253,7 +245,7 @@ public class LoginDAOImpl implements LoginDAO {
 	public MemberDTO getMemberInfo(int login_id) {
 		MemberDTO memberDtoList = null;
 		try {
-			System.out.println("getMemberInfo() memid값 넘오는지 확인=>" + login_id);
+			//System.out.println("getMemberInfo() memid값 넘오는지 확인=>" + login_id);
 			con = ds.getConnection();
 			sql = "select * from member where mem_id=?";
 			pstmt = con.prepareStatement(sql);
@@ -367,14 +359,16 @@ public class LoginDAOImpl implements LoginDAO {
 	//8.아이디 찾기
 	public ArrayList<SearchDTO> getSearchId(String memname, String email) {
 	    ArrayList<SearchDTO> idList = new ArrayList<>();
-
+	    StringBuffer sb = new StringBuffer();
 	    try {
 	        // DB접속구문
 	        con = ds.getConnection();
-	        String sql = "SELECT m.memname, m.enrolldate, ml.id " +
-                    "FROM member m " +
-                    "INNER JOIN memlogin ml ON m.mem_id = ml.login_id " +
-                    "WHERE m.memname = ? AND m.email = ?";
+	        sb.append("SELECT m.memname, m.enrolldate, ml.id ");
+	        sb.append("FROM member m ");
+	        sb.append("INNER JOIN memlogin ml ON m.mem_id = ml.login_id ");
+	        sb.append("WHERE m.memname = ? AND m.email = ?");
+	        sql=sb.toString();
+	        
 	        pstmt = con.prepareStatement(sql);
 	        pstmt.setString(1, memname);
 	        pstmt.setString(2, email);
@@ -404,15 +398,16 @@ public class LoginDAOImpl implements LoginDAO {
   	//id로 검색해서 id와 memname, email을 꺼내온다.
   	public SearchDTO searchPwd(String id){
   		SearchDTO searchDto = null;
-
+  		StringBuffer sb = new StringBuffer();
 		try
 		{
 		  //DB접속구문
 		  con = ds.getConnection();
-		  String sql = "SELECT m.memname, m.email, ml.id " +
-                  "FROM member m " +
-                  "INNER JOIN memlogin ml ON m.mem_id = ml.login_id " +
-                  "WHERE ml.id = ?";
+		  sb.append("SELECT m.memname, m.email, ml.id ");
+		  sb.append("FROM member m ");
+		  sb.append("INNER JOIN memlogin ml ON m.mem_id = ml.login_id ");
+		  sb.append("WHERE ml.id = ?");
+		  sql=sb.toString();
 	      pstmt = con.prepareStatement(sql);
 		  pstmt.setString(1,id);
 		  rs = pstmt.executeQuery();
@@ -466,15 +461,13 @@ public class LoginDAOImpl implements LoginDAO {
 	
 		//11. 관리자로 로그인했는지 체크
 		// id로 확인하는 이유는 회원가입시 관리자 id도 중복 체크하기 때문이다.
-		public ManagerDTO managerCheck(String id, String pwd) {
+		public ManagerDTO managerCheck(String id) {
 			ManagerDTO managerDto = null;
 			try {
 				con=ds.getConnection();
-				System.out.println("con=>"+con);
-				sql="SELECT * FROM manager WHERE id = ? and pwd = ?";
+				sql="SELECT * FROM manager WHERE id = ?";
 				pstmt=con.prepareStatement(sql);
 				pstmt.setString(1,id);
-				pstmt.setString(2, pwd);
 				rs=pstmt.executeQuery();
 				if(rs.next()) {
 					managerDto = new ManagerDTO();

@@ -23,9 +23,9 @@ public class LoginServiceImpl implements LoginService {
     }
 
 	@Override
-	public LoginDTO loginCheck(String id, String pwd) {
+	public LoginDTO loginCheck(String id) {
 		// TODO Auto-generated method stub
-		return loginDAO.loginCheck(id, pwd);
+		return loginDAO.loginCheck(id);
 	}
 	
 	@Override
@@ -83,9 +83,9 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public ManagerDTO managerCheck(String id, String pwd) {
+	public ManagerDTO managerCheck(String id) {
 		// TODO Auto-generated method stub
-		return loginDAO.managerCheck(id, pwd);
+		return loginDAO.managerCheck(id);
 	}
 	
 }

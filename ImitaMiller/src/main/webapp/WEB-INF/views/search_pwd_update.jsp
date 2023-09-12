@@ -13,6 +13,8 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	<meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+   	<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 </head>
 <body class="bg-gradient-primary">
 
@@ -34,6 +36,7 @@
                                         <h1 class="h4 mb-4">비밀번호 변경하기</h1>
                                     </div>
                                     <form class="user" name="SearchPwdUpdate" method="post" action="search_pwd_updateproc.shop">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         <input type="hidden" name="id" id="memid" value="${id}">
                                         <!-- 비밀번호 -->
                                         <div class="form-group row border-top">

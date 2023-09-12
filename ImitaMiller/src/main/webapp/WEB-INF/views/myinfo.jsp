@@ -16,6 +16,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <!-- top.jsp -->
     	<jsp:include page="header.jsp" flush="false" />
+    	
 </head>
 <body class="bg-gradient-primary">
 
@@ -37,6 +38,7 @@
                                         <h1 class="h4 mb-4">회원정보 확인</h1>
                                     </div>
                                     <form class="user" name="memupdate" id="memupdate" method="POST" action="memupdate.shop">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         <!-- 성명 -->
                                         <div class="form-group row border-top">
                                             <div class="col-sm-3 mb-3 mb-sm-0">
@@ -178,9 +180,6 @@
 	<!-- footer.jsp-->
 	<jsp:include page="footer.jsp" flush="false" />
 
-	<!-- feedback.jsp-->
-	<jsp:include page="feedback.jsp" flush="false" />
 	<script src="js/meminfo.js"></script>
-	<script src="js/scripts.js?ver=1.3"></script>
 </body>
 </html>

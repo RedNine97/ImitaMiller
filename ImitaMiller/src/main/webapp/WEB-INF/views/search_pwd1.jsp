@@ -34,6 +34,7 @@
                                         <h1 class="h4 mb-4">비밀번호 찾기</h1>
                                     </div>
                                     <form class="user" name="SearchPwd1" id="SearchPwd1" method="post" action="search_pwd2.shop">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         <!-- 아이디 -->
                                         <div class="form-group row mt-5 mb-5">
                                             <hr>

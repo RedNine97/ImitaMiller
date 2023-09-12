@@ -1,41 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
-	<!-- Appenders -->
-	<appender name="console" class="org.apache.log4j.ConsoleAppender">
-		<param name="Target" value="System.out" />
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<!-- 내부처리과정,에러메세지를 출력할때 출력양식을 지정 -->
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
+			<param name="ConversionPattern" value="[%p:%C{1}.%M()] %m%n" />
 		</layout>
 	</appender>
 	
-	<!-- Application Loggers -->
-	<logger name="com.imitamiller.controller">
-		<level value="info" />
-	</logger>
-	
-	<!-- 3rdparty Loggers -->
-	<logger name="org.springframework.core">
-		<level value="info" />
-	</logger>
-	
-	<logger name="org.springframework.beans">
-		<level value="info" />
-	</logger>
-	
-	<logger name="org.springframework.context">
-		<level value="info" />
-	</logger>
+	<!--  컨트롤러뿐만아니라 모든 클래스의 에러메세지,디버깅을 알고싶다.
+            com.imitamiller이하의 모든 로그객체  반영클래스에서 내부처리 확인가능-->
+	<category name="com.imitamiller" additivity="false">
+		<priority value="debug" />
+		<appender-ref ref="STDOUT" />
+	</category>
 
-	<logger name="org.springframework.web">
-		<level value="info" />
-	</logger>
-
-	<!-- Root Logger -->
+	<!-- 에러발생했을때 처리 -->
 	<root>
-		<priority value="warn" />
-		<appender-ref ref="console" />
+		<priority value="error" />
+		<appender-ref ref="STDOUT" />
 	</root>
-	
+
 </log4j:configuration>

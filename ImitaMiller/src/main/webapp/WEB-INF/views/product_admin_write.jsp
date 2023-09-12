@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -13,7 +14,6 @@
 
   <!-- Core theme CSS (includes Bootstrap)-->
   <link href="css/styles.css" rel="stylesheet" />
-
 </head>
 
 <body class="bg-gradient-primary">
@@ -27,7 +27,7 @@
           <div class="text-center">
             <h1 class="h4 mb-4 pb-5">새로운 상품 등록</h1>
           </div>
-          <form name="ProductAdminWrite" method="post" action="product_admin_write.shop" enctype="multipart/form-data">
+          <form name="ProductAdminWrite" method="post" action="product_admin_write.shop?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
             <div class="card pb-4">
               <div class="card-body">
                 <div class="form-group row m-0">
@@ -111,7 +111,7 @@
                   </div>
                   <!-- 업로드 폼 1 -->
 					<div class="col-sm-9 ps-0 py-4">
-					    <label for="fileInputWrite1">권장 사진 크기 : 800 X 700</label>
+					    <label for="fileInput">권장 사진 크기 : 800 X 700</label>
 					    <input type="file" id="fileInputWrite1" name="psizemgpathFile"
 					        class="col-sm-9 register-input form-control form-control-user mt-3 rounded-start rounded-4">
 					</div>
@@ -123,7 +123,7 @@
                   </div>
                   <!-- 업로드 폼 2 -->
 					<div class="col-sm-9 ps-0 py-4">
-					    <label for="fileInputWrite2">권장 사진 크기 : 600 X 600</label>
+					    <label for="fileInput">권장 사진 크기 : 600 X 600</label>
 					    <input type="file" id="fileInputWrite2" name="imgpathFile"
 					        class="col-sm-9 register-input form-control form-control-user mt-3 rounded-start rounded-4">
 					</div>

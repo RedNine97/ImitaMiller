@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8" import="javax.servlet.http.HttpSession"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 <!--메인 네비바-->
 	<div class="">
 		<a href="#!"><img class="img-responsive mx-auto d-block img-fluid"
@@ -47,12 +48,6 @@
 						</c:if>
 					</li>
 				</ul>
-				<button class="btn btn-primary rounded-pill px-2 mb-2 mb-lg-0"
-						data-bs-toggle="modal" data-bs-target="#feedbackModal">
-						<span class="d-flex align-items-center"> <i
-							class="bi-chat-text-fill me-2"></i> <span class="small">문의하기</span>
-						</span>
-					</button>
 				</div>
 			</div>
 		</nav>

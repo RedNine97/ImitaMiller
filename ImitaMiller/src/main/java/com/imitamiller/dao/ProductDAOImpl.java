@@ -34,8 +34,6 @@ public class ProductDAOImpl implements ProductDAO {
 	public void setDs(DataSource ds) {
 		// TODO Auto-generated method stub
 		this.ds=ds;
-		System.out.println("ds => "+ds);
-		System.out.println("setDs()호출되서 DB연결됨(ds)");
 	}
 	
 	//상품 공통부분
@@ -80,7 +78,6 @@ public class ProductDAOImpl implements ProductDAO {
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-			System.out.println("getNewNum() 에러유발=>"+e);
 		}
 		return newNum;
 	}
@@ -91,7 +88,6 @@ public class ProductDAOImpl implements ProductDAO {
 			
 			try {
 				con=ds.getConnection();
-				System.out.println("con=>"+con);
 				if(search==null || search.equals("")) {
 					sql="select count(*) from product";
 				}else {
@@ -101,14 +97,15 @@ public class ProductDAOImpl implements ProductDAO {
 						sql="select count(*) from product where pname like '%" + searchtext + "%' or pcategory like '%" + searchtext + "%' or ptype like '%" + searchtext + "%' ";
 					}
 				}
-				System.out.println("getProductSearchCount 검색sql=>"+sql);
 				pstmt=con.prepareStatement(sql);
 				rs=pstmt.executeQuery();
 				if(rs.next()) {
 					x=rs.getInt(1);
 				}
 			}catch(Exception e) {
-				System.out.println("getProductSearchCount() 에러발생=>"+e);
+				System.out.println("getProductSearchCount() 에러:");
+		        System.out.println("에러 라인 107:");
+		        System.out.println(e);
 			}finally {
 				close(con, pstmt, rs);
 			}
@@ -136,7 +133,9 @@ public class ProductDAOImpl implements ProductDAO {
 					}while(	rs.next());//더 있으면 계속
 				}
 			}catch(Exception e) {
-				System.out.println("getArticles() 에러발생=>"+e);
+				System.out.println("getProduct() 에러:");
+		        System.out.println("에러 라인 137:");
+		        System.out.println(e);
 			}finally {
 				close(con, pstmt, rs);
 			}
@@ -170,7 +169,9 @@ public class ProductDAOImpl implements ProductDAO {
 					}while(rs.next());
 				}
 			}catch(Exception e) {
-				System.out.println("getProductList() 에러발생=>"+e);
+				System.out.println("getProductList() 에러:");
+		        System.out.println("에러 라인 173:");
+		        System.out.println(e);
 			}finally {
 				close(con, pstmt, rs);
 			}
@@ -203,7 +204,9 @@ public class ProductDAOImpl implements ProductDAO {
 					}while(rs.next());
 				}			
 			}catch(Exception e) {
-				System.out.println("getProduct() 에러유발=>"+e);
+				System.out.println("getRecommendProduct() 에러:");
+		        System.out.println("에러 라인 208:");
+		        System.out.println(e);
 			}finally {
 				close(con, pstmt, rs);
 			}
@@ -220,8 +223,6 @@ public class ProductDAOImpl implements ProductDAO {
 				pstmt=con.prepareStatement(sql);
 				pstmt.setInt(1, pID);
 				int update=pstmt.executeUpdate();
-				System.out.println("조회수 증가(sql)=>"+sql);
-				System.out.println("조회수 증가유무(update)=>"+update);
 				
 				sql="select * from product where pID=?";
 				pstmt=con.prepareStatement(sql);
@@ -232,7 +233,9 @@ public class ProductDAOImpl implements ProductDAO {
 					
 				}
 			}catch(Exception e) {
-				System.out.println("getArticle() 에러발생=>"+e);
+				System.out.println("getRecommendProduct() 에러:");
+		        System.out.println("에러 라인 237:");
+		        System.out.println(e);
 			}finally {
 				close(con, pstmt, rs);
 			}
@@ -253,7 +256,9 @@ public class ProductDAOImpl implements ProductDAO {
 					 product=makepdto();
 				}
 			}catch(Exception e) {
-				System.out.println("getProductUpdate() 에러유발=>"+e);
+				System.out.println("getProductUpdate() 에러:");
+		        System.out.println("에러 라인 260:");
+		        System.out.println(e);
 			}finally {
 				close(con, pstmt, rs);
 			}
@@ -285,7 +290,9 @@ public class ProductDAOImpl implements ProductDAO {
 				}
 				
 			} catch (Exception e) {
-				System.out.println("productUpdate() 메서드 에러유발=>" + e);
+				System.out.println("productUpdateProc() 에러:");
+		        System.out.println("에러 라인 294:");
+		        System.out.println(e);
 			} finally {
 				close(con, pstmt, rs);
 			}
@@ -325,7 +332,6 @@ public class ProductDAOImpl implements ProductDAO {
 					pstmt.setInt(10, product.getCount());
 	
 					int insert = pstmt.executeUpdate();
-					System.out.println("ProductInsert 테이블" + insert);
 	
 					if (insert > 0) {
 						check = true; // 상품등록 성공
@@ -333,7 +339,9 @@ public class ProductDAOImpl implements ProductDAO {
 		        }
 				con.commit(); //커밋
 			} catch (Exception e) {
-				System.out.println("ProductInsert() 에러유발=>" + e);
+				System.out.println("ProductInsert() 에러:");
+		        System.out.println("에러 라인 343:");
+		        System.out.println(e);
 			}  finally {// DB 객체를 해제
 		        try {
 		            con.setAutoCommit(true); // Auto Commit 모드를 다시 활성화
@@ -363,9 +371,10 @@ public class ProductDAOImpl implements ProductDAO {
 				if (delete == 1) {
 					check = true;// 데이터수정 성공
 				}
-			} catch (Exception ex) {
-				System.out.println("=getProductDelete()에러=");
-				System.out.println(ex);
+			} catch (Exception e) {
+				System.out.println("getProductDelete() 에러:");
+		        System.out.println("에러 라인 376:");
+		        System.out.println(e);
 			} finally { // DB객체를 해제
 				try {
 					con.setAutoCommit(true); 

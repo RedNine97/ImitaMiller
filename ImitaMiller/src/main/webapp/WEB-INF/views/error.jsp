@@ -36,6 +36,7 @@
                   <a>${errormessage}</a>
                 </c:if>
               </div>
+              ${exception}
               <div class="row d-flex justify-content-center">
                 <div class="col-sm-3">
                     <input type="button" value="돌아가기" class="btn btn-login btn-user btn-block" onClick="history.back()"/>

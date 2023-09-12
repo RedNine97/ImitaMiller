@@ -154,8 +154,6 @@
 	<!-- footer.jsp-->
 	<jsp:include page="footer.jsp" flush="false" />
 
-	<!-- feedback.jsp-->
-	<jsp:include page="feedback.jsp" flush="false" />
 	<!-- Bootstrap core JS-->
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/scripts.js"></script>

@@ -1,5 +1,11 @@
 //product.js
-
+$(document).ready(function(){
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+});
 //상품 이미지 미리보기 기능(중복된 코드)
 function setupImagePreview(inputId, previewId) {
     document.getElementById(inputId).addEventListener('change', function () {

@@ -3,6 +3,7 @@ package com.imitamiller.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +23,9 @@ public class MyController {
 	
 	@Autowired
 	private LoginService loginService;
+	
+	@Autowired
+    BCryptPasswordEncoder cryptEncoder;
 	
 	// 마이페이지 --------------------------------------------------------------------------
 	@GetMapping("/mypage.shop")
@@ -50,12 +54,14 @@ public class MyController {
 	@PostMapping(value = "memupdate.shop")
 	public String postMyinfo(@ModelAttribute("MemberDTO") MemberDTO memberDTO,
 										@ModelAttribute("LoginDTO") LoginDTO loginDTO, HttpSession session) {
+		
+		String pwdCrypt =cryptEncoder.encode(loginDTO.getPwd());
+		loginDTO.setPwd(pwdCrypt);
+		
 		// 세션에 저장된 회원번호
 		int login_id = (int) session.getAttribute("login_id");
 
 		boolean memberUpdateCheck = loginService.memberUpdate(login_id, memberDTO, loginDTO);
-
-		System.out.println("memberUpdateCheck => " + memberUpdateCheck);
 
 		if (!memberUpdateCheck) {
 			return "redirect:/myinfo.shop";
@@ -89,7 +95,6 @@ public class MyController {
 		int login_id = (int) session.getAttribute("login_id");
 
 		boolean memberDeleteCheck = loginService.deleteMember(login_id);
-		System.out.println("memberDelete => " + memberDeleteCheck);
 
 		// 세션에서 사용자 정보 삭제
 		session.removeAttribute("loginCheck");

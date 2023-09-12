@@ -13,7 +13,8 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-        
+        <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+   		<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 </head>
 <body class="bg-gradient-primary">
 
@@ -36,6 +37,7 @@
                                     </div>
                                     <!-- 회원가입 폼 -->
                                     <form class="user" name="register" id="register" method="POST" action="register.shop">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         <!-- 성명 -->
                                         <div class="form-group row border-top">
                                             <div class="col-sm-3 mb-3 mb-sm-0">
@@ -155,6 +157,5 @@
 
     </div>
 	<script src="js/register.js"></script>
-    <script src="js/scripts.js?ver=1.1"></script>
 </body>
 </html>

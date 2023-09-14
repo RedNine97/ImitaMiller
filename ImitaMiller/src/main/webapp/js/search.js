@@ -83,7 +83,7 @@ $(document).ready(function(){
 			success: function(key){
 				$('#searchemail').hide();
 				alert("인증번호를 발송했습니다.\n인증번호가 오지 않으면 입력하신 정보가 회원정보와 일치하는지 확인해주세요.");
-	    		alert("response : "+key.replace(/\s/g,''));//전달받는 데이터 확인
+	    		//alert("response : "+key.replace(/\s/g,''));//전달받는 데이터 확인
 				$("#randomKey").val(key.replace(/\s/g,''));
 				},
 				error: function(){

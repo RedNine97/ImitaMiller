@@ -22,46 +22,43 @@
         <security:intercept-url pattern="/logout.shop" access="permitAll" />
         
         <!-- ROLE_ADMIN 권한이 필요한 URL 설정 -->
-		<!-- 예: access="hasRole('ROLE_ADMIN')" -->  
+		<!-- 예: access="hasRole('ROLE_ADMIN')"   
+		<security:intercept-url pattern="/mypage.shop" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/adminpage.shop" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/product_admin_delete.shop" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/product_admin_list.shop" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/product_admin_update.shop" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/product_admin_write.shop" access="hasRole('ROLE_ADMIN')" />-->
 		      
         <!-- 예: /public/** 경로에 대한 설정 -->
    	 	<security:intercept-url pattern="/public/**" access="permitAll" />
         
         <!-- 로그인 페이지 설정 -->
         <security:form-login login-page="/login.shop" 
-        							default-target-url="/main.shop" 
+        							default-target-url="/main.shop"
         							authentication-failure-url="/login.shop?error=true"/>
         
         <!-- 로그아웃 페이지 설정 -->
         <security:logout logout-success-url="/logout.shop" />
         
-        <!-- 특정 URL에서 CSRF 보호 비활성화 -->
-    	<security:csrf disabled="true" />
+        <!-- 특정 URL에서 CSRF 보호 비활성화-->
+    	<security:csrf disabled="true" /> 
     </security:http>
     
 	<!-- 사용자 인증 제공자 설정 -->
     <security:authentication-manager>
         <security:authentication-provider>
             <security:jdbc-user-service data-source-ref="dataSource"
-                users-by-username-query="SELECT id, pwd, 1 as enabled FROM memlogin WHERE id = ?"
-                authorities-by-username-query="SELECT id, 'ROLE_USER' as authority FROM memlogin WHERE id = ?" />
+                users-by-username-query="SELECT id, pwd, 1 as enabled, 1 as authority_id FROM memlogin WHERE id = ?"
+                authorities-by-username-query="SELECT 1 as authority_id, 'ROLE_USER' as name FROM authoritys WHERE authority_id = ?" />
         </security:authentication-provider>
         <security:authentication-provider>
             <security:jdbc-user-service data-source-ref="dataSource"
-                users-by-username-query="SELECT id, pwd, 1 as enabled FROM manager WHERE id = ?"
-                authorities-by-username-query="SELECT id, 'ROLE_ADMIN' as authority FROM manager WHERE id = ?" />
+                users-by-username-query="SELECT id, pwd, 1 as enabled, authority_id FROM manager WHERE id = ?"
+                authorities-by-username-query="SELECT 'ROLE_ADMIN' as name FROM authoritys WHERE authority_id = ?" />
         </security:authentication-provider>
     </security:authentication-manager>
     
-    <!-- Exception handling configuration -->
-    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="exceptionMappings">
-             <props>
-                    <prop key="java.lang.Exception">error</prop>
-             </props>
-        </property>
-	</bean>
-	
 	<!-- 패스워드 암호화 및 복호화를 위한 bcryptPasswordEncoder 빈 정의 -->
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	

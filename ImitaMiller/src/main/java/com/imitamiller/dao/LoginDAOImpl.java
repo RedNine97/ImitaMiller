@@ -204,7 +204,7 @@ public class LoginDAOImpl implements LoginDAO {
 
 	        if (insertedRows > 0) {
 	            // 3. 회원 정보가 제대로 삽입되었다면 login_id에 mem_id를 삽입하는 쿼리 실행
-	            String loginInsertSQL = "INSERT INTO memlogin (login_id, id, pwd) VALUES (?, ?, ?)";
+	            String loginInsertSQL = "INSERT INTO memlogin (login_id, id, pwdzz) VALUES (?, ?, ?)";
 	            pstmt = con.prepareStatement(loginInsertSQL);
 	            pstmt.setInt(1, maxMemId + 1);// mem_id를 login_id에 사용
 	            pstmt.setString(2, loginDTO.getId());

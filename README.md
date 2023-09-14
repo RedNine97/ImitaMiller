@@ -6,7 +6,7 @@ Spring MVC로 구현한 쇼핑몰 사이트 제작
 쇼핑몰만 한 게 없다고 판단이 되어 주제를 가구 쇼핑몰로 선정했습니다.<br>
 
 #### 🧙진행 기간
-* 23.8.14 - <br>
+* 23.8.14 - 23.9.13<br>
 **인원** : 1명
 
 ### ⚙️ 개발 환경
@@ -35,6 +35,11 @@ Spring MVC로 구현한 쇼핑몰 사이트 제작
 [아이디, 비밀번호 찾기](https://velog.io/@ghdrn221/%EC%95%84%EC%9D%B4%EB%94%94-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%B0%BE%EA%B8%B0)<br>
 [관리자(상품수정까지)](https://velog.io/@ghdrn221/%EA%B4%80%EB%A6%AC%EC%9E%90)<br>
 [상품 첨부파일(등록, 수정, 삭제)](https://velog.io/@ghdrn221/%EC%83%81%ED%92%88-%EC%B2%A8%EB%B6%80%ED%8C%8C%EC%9D%BC%EB%93%B1%EB%A1%9D-%EC%88%98%EC%A0%95-%EC%82%AD%EC%A0%9C)<br>
+[에러처리 / Spring Security](https://velog.io/@ghdrn221/%EC%97%90%EB%9F%AC%EC%B2%98%EB%A6%AC-Spring-Security)<br>
+[마무리 (DB, 느낀점)](https://velog.io/@ghdrn221/%EB%A7%88%EB%AC%B4%EB%A6%AC-DB-%EB%8A%90%EB%82%80%EC%A0%90)<br>
 
 ## 💡 이전 프로젝트
 [모델2로 구현한 프로젝트 밸로그 링크](https://velog.io/@ghdrn221/series/%EB%AA%A8%EB%8D%B82%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)<br>
+
+## 💡 느낀점
+처음에 너무 많은 범위를 혼자 하려고 했던 것 같다. 그리고, Spring Security를 적용해서 로그인 처리 부분을 생략했다면 더욱 빨리 끝냈을 것 같다. Tiles와 Mybatis로 구현한 게시판 프로젝트가 있어서 이걸 참고 해서 구현했다면 하는 아쉬움도 남는다. 한달정도 걸렸지만 처음에는 거의 공부였고, 자바스크립트에 많이 막혀서 그렇지 막상 시작하고 끝낸 기간은 일주일 조금 넘는것 같아서 더 아쉬움이 남는것 같다.

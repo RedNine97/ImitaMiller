@@ -50,9 +50,9 @@ public class ProductController {
 	    return mav;
 	}
 	
-	//상품 상세 페이지
+		//상품 상세 페이지
 		@RequestMapping(value="product_detail.shop", method=RequestMethod.GET)
-		public ModelAndView showProductDetail(@RequestParam(name = "pID", defaultValue = "") int pID){// 정렬 파라미터 추가
+		public ModelAndView showProductDetail(@RequestParam(name = "pID", defaultValue = "") int pID){
 			
 			//다른 상품 보기
 			Random random = new Random();// 랜덤 객체 생성
